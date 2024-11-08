@@ -2,7 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
 :root {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  color: rgb(53, 51, 51);
+  font-size: 15px;
+}
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -24,4 +34,4 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-}
+} */
