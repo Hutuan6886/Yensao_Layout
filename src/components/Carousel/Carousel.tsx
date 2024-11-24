@@ -7,6 +7,7 @@ import useWindowSize from '@/hooks/useWindowSize'
 import { CarouselType } from '@/types/types'
 
 import { FaAngleLeft, FaAngleRight, FaChevronRight } from 'react-icons/fa'
+import { useRouter } from 'next/navigation'
 
 
 interface CarouselProps {
@@ -17,6 +18,8 @@ interface CarouselProps {
 const Carousel: React.FC<CarouselProps> = ({ dataCarousel, isAutoSlide, autoSlideInterval }) => {
     const [indexImg, setIndexImg] = useState<number>(0)
     const [isHoverButton, setIsHoverButton] = useState<boolean>(false)
+
+    const router = useRouter()
 
     //todo: state width screen
     const clientScreenWidth = useWindowSize()
@@ -73,6 +76,7 @@ const Carousel: React.FC<CarouselProps> = ({ dataCarousel, isAutoSlide, autoSlid
                                                             hover:before:w-full'
                                             onMouseEnter={() => setIsHoverButton(true)}
                                             onMouseLeave={() => setIsHoverButton(false)}
+                                            onClick={() => { router.push('/products') }}
                                         >
                                             Khám Phá
                                             {isHoverButton

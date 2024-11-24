@@ -1,3 +1,19 @@
+/* //todo: Type of Dashboard*/
+export type SideBarDashboard = {
+  title: string;
+  icon: React.ReactElement;
+  href: string;
+  isActive: boolean;
+};
+
+export type NotionItemDragDropActiveType = {
+  index: number;
+  height?: number;
+  title?: string;
+  content: string;
+};
+
+/* //todo: Type of Root*/
 export type MainNavType = {
   title: string;
   href: string;
@@ -11,6 +27,14 @@ export type CarouselType = {
   imgUrl: string;
 };
 
+export type CategoryType = {
+  id: string;
+  createAt?: Date;
+  updateAt?: Date;
+
+  name: string;
+};
+
 export type ProductsType = {
   id: string;
   title: string;
@@ -18,8 +42,8 @@ export type ProductsType = {
   desc?: DescriptionType[];
   notion?: NotionType[];
 
-  type: string;
-  mass: number[];
+  categoryId: string;
+  mass: MassType[];
   regularPrice: number;
   discountPrice?: number;
 
@@ -33,6 +57,29 @@ export type DescriptionType = {
   content: string;
 };
 export type NotionType = {
-  title: string;
+  title?: string;
   content: string;
+};
+export type MassType = {
+  id: string;
+  value: string;
+
+  createAt?: Date;
+  updateAt?: Date;
+};
+
+export type SidebarSearchType = {
+  price: {
+    min: number;
+    max: number;
+  };
+  type: string[];
+  mass: string[];
+};
+
+export type ModalType = {
+  isOpen: boolean;
+  isLoading: boolean;
+  onClose: () => void;
+  onSubmit: () => void;
 };

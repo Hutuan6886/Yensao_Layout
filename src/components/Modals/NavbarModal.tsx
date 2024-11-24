@@ -1,14 +1,14 @@
 'use client'
 import React, { Fragment, useState } from 'react'
+import Link from 'next/link'
+
 import { motion } from 'framer-motion'
-import { cn } from '@/libs/utils'
 import { MainNavType } from '@/types/types'
 import { FaChevronDown } from 'react-icons/fa'
-import Link from 'next/link'
 
 interface NavbarModalProps {
     dataNav: MainNavType[]
-    className?: string
+    onClose: () => void
 }
 
 const openModalAnimation = {
@@ -32,8 +32,7 @@ const openModalAnimation = {
     }
 }
 
-const NavbarModal: React.FC<NavbarModalProps> = ({ dataNav, className }) => {
-
+const NavbarModal: React.FC<NavbarModalProps> = ({ dataNav, onClose }) => {
     const [isActiveSubnav, setIsActiveSubnav] = useState<boolean>(false)
     const [activeSubnav, setActiveSubnav] = useState<number | undefined>(undefined)
 
@@ -48,10 +47,13 @@ const NavbarModal: React.FC<NavbarModalProps> = ({ dataNav, className }) => {
         setIsActiveSubnav(!isActiveSubnav)
     }
 
+
+
     return (
         <motion.div
             variants={openModalAnimation} initial='invisible' animate='visible' exit='exit'
-            className={cn("w-full max-h-screen bg-white border-b border-zinc-500 shadow-lg overflow-y-scroll pb-5", className)}>
+            className="w-full h-fit bg-white border-b border-zinc-500 shadow-lg overflow-y-scroll pb-5"
+        >
             <div className='w-full h-[45px] bg-[#ECE6D8] border-b border-zinc-300 shadow-md'></div>
             <div className='w-full flex flex-col items-center overflow-y-scroll'>
                 {
@@ -60,7 +62,7 @@ const NavbarModal: React.FC<NavbarModalProps> = ({ dataNav, className }) => {
                             <div className='w-full flex flex-row items-center justify-center gap-3 cursor-pointer py-3'
                                 onClick={() => handleOpenSubnav(i)}
                             >
-                                <Link href={navItem.href} className='font-semibold'>{navItem.title}</Link>
+                                <Link href={`${navItem.href}`} className='font-semibold'>{navItem.title}</Link>
                                 {
                                     navItem.subNav?.length != undefined
                                     && <FaChevronDown size={10} className={`${activeSubnav === i ? "-rotate-180" : null} transition-all`} />
@@ -72,7 +74,7 @@ const NavbarModal: React.FC<NavbarModalProps> = ({ dataNav, className }) => {
                                     className='w-full h-fit flex flex-col items-center bg-[#eeede7] shadow-inner'>
                                     {
                                         navItem.subNav.map((subNavItem: MainNavType, i: number) => (
-                                            <Link href={subNavItem.href} key={i} className='text-sm cursor-pointer py-2'>{subNavItem.title}</Link>
+                                            <Link key={i} href={`${navItem.href}/${subNavItem.href}`} className='text-sm cursor-pointer py-2'>{subNavItem.title}</Link>
                                         ))
                                     }
                                 </motion.div>

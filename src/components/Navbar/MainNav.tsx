@@ -1,11 +1,11 @@
 "use client"
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 
 import useWindowSize from '@/hooks/useWindowSize'
-import { cn } from '@/libs/utils'
-
 import { MainNavType } from '@/types/types'
+import { cn } from '@/lib/utils'
+
 import { FaChevronDown } from 'react-icons/fa'
 import Link from 'next/link'
 
@@ -53,15 +53,15 @@ const MainNav: React.FC<MainNavProps> = ({ dataNav, className }) => {
                                 onMouseEnter={() => setActiveDropdown(i)}
                                 onMouseLeave={() => setActiveDropdown(undefined)}
                             >
-                                <div className='flex flex-row items-center justify-start gap-2 group'>
-                                    <Link href={navItem.href} className={`${clientWidth > 769 && clientWidth < 904 ? "text-[0.9rem] tracking-0" : "text-[1.05rem] tracking-[.06rem]"}  font-semibold 
-                                                    group-hover:text-[#c58c37] transition cursor-pointer`}>{navItem.title}</Link>
+                                <Link href={navItem.href} className='flex flex-row items-center justify-start gap-2 group'>
+                                    <p className={`${clientWidth > 769 && clientWidth < 904 ? "text-[0.9rem] tracking-0" : "text-[1.05rem] tracking-[.06rem]"}  font-semibold 
+                                                    group-hover:text-[#c58c37] transition cursor-pointer`}>{navItem.title}</p>
                                     <div className='w-fit h-fit' onClick={() => handleClickNavForMobile(i)} >
                                         <FaChevronDown size={11} className={`${navItem.subNav?.length !== undefined ? "block" : "hidden"} 
                                                         group-hover:-rotate-180 
                                                         group-hover:text-[#c58c37] duration-300 transition-all`} />
                                     </div>
-                                </div>
+                                </Link>
                                 <span className={`${i === dataNav.length - 1 ? "hidden" : "block"} 
                                                     font-thin text-[#dfd39f]`}
                                 >|</span>
@@ -78,7 +78,7 @@ const MainNav: React.FC<MainNavProps> = ({ dataNav, className }) => {
                                                         bg-white shadow-[-10px_20px_50px_-15px_rgba(0,0,0,0.3)] p-5'>
                                             {
                                                 navItem.subNav?.map((subNavItem: MainNavType, i: number) => (
-                                                    <p key={i} className='hover:text-[#c58c37] cursor-pointer transition'>{subNavItem.title}</p>
+                                                    <Link href={`${navItem.href}${subNavItem.href}`} key={i} className='hover:text-[#c58c37] cursor-pointer transition'>{subNavItem.title}</Link>
                                                 ))
                                             }
                                         </div>

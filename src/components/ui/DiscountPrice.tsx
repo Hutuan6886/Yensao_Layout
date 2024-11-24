@@ -1,5 +1,5 @@
 "use client"
-import { formatter } from '@/libs/utils'
+import { formatter } from '@/lib/utils'
 import React from 'react'
 
 interface DiscountPriceProps {

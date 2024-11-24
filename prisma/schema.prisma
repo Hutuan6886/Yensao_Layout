@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id       String   @id @default(cuid())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  name String
+
+  Product Product[]
+}
+
+model Product {
+  id       String   @id @default(cuid())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  title         String
+  imgUrl        String[]
+  type          String
+  regularPrice  Float
+  discountPrice Float?
+
+  Category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String?
+
+  mass   Mass[]
+  notion Notion[]
+  desc   Description[]
+
+  @@index([categoryId])
+}
+
+model Description {
+  id       String   @id @default(cuid())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  title   String
+  imgUrl  String?
+  content String
+
+  Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String?
+
+  @@index([productId])
+}
+
+model Notion {
+  id       String   @id @default(cuid())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  title   String
+  content String
+
+  Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String?
+
+  @@index([productId])
+}
+
+model Mass {
+  id       String   @id @default(cuid())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  value String
+
+  Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String?
+
+  @@index([productId])
+}

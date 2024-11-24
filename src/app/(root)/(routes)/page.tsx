@@ -1,5 +1,4 @@
 import { CarouselType, ProductsType } from '@/types/types'
-
 import Carousel from '@/components/Carousel/Carousel'
 import ContainerWithTitle from '@/components/ui/ContainerWithTitle'
 import ProductsList from '@/components/Products/ProductsList'
@@ -15,11 +14,11 @@ const dataCarousel: CarouselType[] = [
     { title: "Yến Sào Baby", desc: "", imgUrl: "/images/Nest-picture-3.png" },
 ]
 
-const dataProducts: ProductsType[] = [
-    { id: '1', title: "Tổ Yến Tinh Chế VIP", imgUrl: ["/images/yen-sao-product-1.jpg", "/images/yen-sao-product-2.jpg", "/images/yen-sao-product-3.jpg"], desc: [{ title: "", imgUrl: "", content: "" }], type: "", mass: [50, 100, 250], regularPrice: 2900000, },
-    { id: '2', title: "Tổ Yến Rút Lông Nguyên Tổ", imgUrl: ["/images/yen-sao-product-4.jpg", "/images/yen-sao-product-5.jpg", "/images/yen-sao-product-6.jpg"], desc: [{ title: "", imgUrl: "", content: "" }], type: "", mass: [50, 100, 250], regularPrice: 6200000, },
-    { id: '3', title: "Tổ Yến Tinh Chế Loại 1", imgUrl: ["/images/yen-sao-product-7.jpg", "/images/yen-sao-product-8.jpg", "/images/yen-sao-product-2.jpg"], desc: [{ title: "", imgUrl: "", content: "" }], type: "", mass: [50, 100, 250], regularPrice: 2450000, },
-    { id: '4', title: "Tổ Yến Tinh Chế Loại 2", imgUrl: ["/images/yen-sao-product-1.jpg", "/images/yen-sao-product-5.jpg", "/images/yen-sao-product-4.jpg"], desc: [{ title: "", imgUrl: "", content: "" }], type: "", mass: [50, 100, 250], regularPrice: 2150000, },
+export const dataProducts: ProductsType[] = [
+    { id: '1', title: "Tổ Yến Tinh Chế VIP", imgUrl: ["/images/yen-sao-product-1.jpg", "/images/yen-sao-product-2.jpg", "/images/yen-sao-product-3.jpg"], desc: [{ title: "", imgUrl: "", content: "" }], categoryId: '1', mass: [{ id: "1", value: '50' }, { id: "2", value: '100' }, { id: "3", value: '200' }], regularPrice: 2900000, },
+    { id: '2', title: "Tổ Yến Rút Lông Nguyên Tổ", imgUrl: ["/images/yen-sao-product-4.jpg", "/images/yen-sao-product-5.jpg", "/images/yen-sao-product-6.jpg"], desc: [{ title: "", imgUrl: "", content: "" }], categoryId: '1', mass: [{ id: "1", value: '50' }, { id: "2", value: '100' }, { id: "3", value: '200' }], regularPrice: 6200000, },
+    { id: '3', title: "Tổ Yến Tinh Chế Loại 1", imgUrl: ["/images/yen-sao-product-7.jpg", "/images/yen-sao-product-8.jpg", "/images/yen-sao-product-2.jpg"], desc: [{ title: "", imgUrl: "", content: "" }], categoryId: '1', mass: [{ id: "1", value: '50' }, { id: "2", value: '100' }, { id: "3", value: '200' }], regularPrice: 2450000, },
+    { id: '4', title: "Tổ Yến Tinh Chế Loại 2", imgUrl: ["/images/yen-sao-product-1.jpg", "/images/yen-sao-product-5.jpg", "/images/yen-sao-product-4.jpg"], desc: [{ title: "", imgUrl: "", content: "" }], categoryId: '1', mass: [{ id: "1", value: '50' }, { id: "2", value: '100' }, { id: "3", value: '200' }], regularPrice: 2150000, },
 ]
 const dataCertification: string[] = ["/images/kiem-dinh-yen-sao-vietfarm-1.jpg", "/images/kiem-dinh-yen-sao-vietfarm-2.jpg", "/images/tu-cong-bo-yen-sao-vietfarm-1.jpg", "/images/tu-cong-bo-yen-sao-vietfarm-2.jpg"]
 const RootPage = () => {
@@ -27,11 +26,11 @@ const RootPage = () => {
     return (
         <div className='w-full h-fit'>
             <Carousel dataCarousel={dataCarousel} isAutoSlide={false} autoSlideInterval={7000} />
-            <ContainerWithTitle title='SẢN PHẨM KHUYẾN MÃI' desc='hád a sjdhjash  jahsdjh  jhasjkdh j jahsk jdh jhas d hád a sjdhjash  jahsdjh  jhasjkdh j jahsk jdh jhas d hád a sjdhjash  jahsdjh '>
-                <ProductsList dataProductsList={dataProducts} />
+            <ContainerWithTitle title='SẢN PHẨM KHUYẾN MÃI' desc='hád a sjdhjash  jahsdjh  jhasjkdh j jahsk jdh jhas d hád a sjdhjash'>
+                <ProductsList dataProductsList={dataProducts} seeMoreButton={true} className='w-[90%] md:w-[80%] m-auto' />
             </ContainerWithTitle>
-            <ContainerWithTitle title='SẢN PHẨM NỔI BẬT' desc='hád a sjdhjash  jahsdjh  jhasjkdh j jahsk jdh jhas d hád a sjdhjash  jahsdjh  jhasjkdh j jahsk jdh jhas d hád a sjdhjash  jahsdjh '>
-                <ProductsList dataProductsList={dataProducts} />
+            <ContainerWithTitle title='SẢN PHẨM NỔI BẬT' desc='hád a sjdhjash  jahsdjh  jhasjkdh j jahsk jdh jhas d hád'>
+                <ProductsList dataProductsList={dataProducts} seeMoreButton={true} className='w-[90%] md:w-[80%] m-auto' />
             </ContainerWithTitle>
             <Certification dataCertification={dataCertification} />
         </div>

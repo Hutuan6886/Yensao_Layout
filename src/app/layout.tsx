@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Quicksand } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar/Navbar";
-import { useEffect, useState } from "react";
-import Footer from "@/components/Footer/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 
-export default function RootLayout({
+export default function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -40,11 +37,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${quicksand.className} antialiased`}
       >
-        <div className="relative flex flex-col gap-4">
-          <Navbar />
-          {children}
-          <Footer />
-        </div>
+        {children}
       </body>
     </html>
   );
