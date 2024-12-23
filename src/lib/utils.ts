@@ -6,7 +6,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const formatter = new Intl.NumberFormat("vi-VN", {
+export const formatterCurrency = new Intl.NumberFormat("vi-VN", {
   style: "currency",
+  currency: "VND",
+});
+
+export const formatterCurrencyInput = new Intl.NumberFormat("vi-VN", {
   currency: "VND",
 });

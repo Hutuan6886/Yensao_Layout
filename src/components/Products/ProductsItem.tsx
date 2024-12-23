@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { ProductsType } from '@/types/types'
-import { formatter } from '@/lib/utils'
+import { ImageType, ProductsType } from '@/types/types'
+import { formatterCurrency } from '@/lib/utils'
 import ButtonPoster from '@/components/ui/ButtonPoster'
 import DiscountPrice from '@/components/ui/DiscountPrice'
 
@@ -18,17 +18,21 @@ const ProductsItem: React.FC<ProductsItemProps> = ({ dataProduct }) => {
 
     const previousImageClick = () => {
         if (posterIndex === 0) {
-            setPosterIndex(dataProduct.imgUrl.length - 1)
+            setPosterIndex(dataProduct.image.length - 1)
         } else {
             setPosterIndex(posterIndex - 1)
         }
     }
     const nextImageClick = () => {
-        if (posterIndex === dataProduct.imgUrl.length - 1) {
+        if (posterIndex === dataProduct.image.length - 1) {
             setPosterIndex(0)
         } else {
             setPosterIndex(posterIndex + 1)
         }
+    }
+
+    if (!dataProduct) {
+        return null
     }
 
     return (
@@ -37,13 +41,13 @@ const ProductsItem: React.FC<ProductsItemProps> = ({ dataProduct }) => {
                 <div className='flex flex-col items-center gap-2 md:gap-4 cursor-pointer'>
                     <div className='relative w-full h-full flex flex-row items-center justify-start overflow-hidden'>
                         {
-                            dataProduct.imgUrl.map((imgUrl: string, i: number) => (
+                            dataProduct.image?.map((imgUrl: ImageType, i: number) => (
                                 <Link href={`/${dataProduct.id}`} key={i} className='min-w-full h-auto'>
                                     <Image
                                         style={{
                                             translate: `${-posterIndex * 100}%`,
                                         }}
-                                        src={imgUrl} alt={imgUrl} width={0} height={0} sizes='100vw' className='w-full hover:scale-110 transition-all duration-500' />
+                                        src={imgUrl.src} alt={imgUrl.src} width={0} height={0} sizes='100vw' className='w-full hover:scale-110 transition-all duration-500' />
                                 </Link>
                             ))
                         }
@@ -58,7 +62,7 @@ const ProductsItem: React.FC<ProductsItemProps> = ({ dataProduct }) => {
                 </div>
                 <div className='flex flex-col items-center gap-2 md:gap-4'>
                     <div className='flex flex-col items-center gap-1'>
-                        <p className='text-lg md:text-xl tracking-[0.1rem] font-bold text-black'>{formatter.format(dataProduct.regularPrice)}</p>
+                        <p className='text-lg md:text-xl tracking-[0.1rem] font-bold text-black'>{formatterCurrency.format(dataProduct.price[0].regularPrice)}</p>
                         <DiscountPrice price={2000000} />
                     </div>
                     <ButtonPoster className="text-sm md:text-base text-[#c58c37] border-[#c58c37] hover:text-white transition duration-300">Mua ngay</ButtonPoster>

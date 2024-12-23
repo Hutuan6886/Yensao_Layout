@@ -3,7 +3,7 @@ import React from 'react'
 import { FieldValues, Path, UseFormRegister, UseFormWatch } from 'react-hook-form'
 
 import './RangeSlider.css'
-import { formatter } from '@/lib/utils'
+import { formatterCurrency } from '@/lib/utils'
 
 type RangeSliderProps<T extends FieldValues> = {
     label?: string
@@ -32,8 +32,8 @@ const RangeSlider = <T extends FieldValues>({ label, name, register, watch, min,
                     }} className='absolute z-0 h-[2px] top-0 left-0 bg-[#c58c37]'></div>
                 </div>
                 <div className='flex flex-row items-center justify-between'>
-                    <p className='text-sm'>{formatter.format(0)}</p>
-                    <p className='text-sm'>{formatter.format(watch(name))}</p>
+                    <p className='text-sm'>{formatterCurrency.format(0)}</p>
+                    <p className='text-sm'>{formatterCurrency.format(watch(name))}</p>
                 </div>
             </div>
         </div>

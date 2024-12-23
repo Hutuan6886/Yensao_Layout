@@ -62,8 +62,8 @@ const NotionListTable = <T extends FieldValues>({ name, setValue, notionList }: 
             <TableDrop index={0} itemActive={itemActive} handleDrop={handleDrop} />
             {
                 notionList?.map((notion: NotionType, i: number) => (
-                    <Fragment key={i}>
-                        <NotionItemTable notionData={notion} index={i + 1} itemActiveIndex={itemActive?.index} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
+                    <Fragment key={notion.id}>
+                        <NotionItemTable notionData={notion} index={i + 1} itemActiveIndex={itemActive?.index} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} onDeleteNotion={() => setValue(name, notionList.filter((item: NotionType) => item.id !== notion.id) as PathValue<T, Path<T>>)} />
                         <TableDrop index={i + 1} itemActive={itemActive} handleDrop={handleDrop} />
                     </Fragment>
                 ))

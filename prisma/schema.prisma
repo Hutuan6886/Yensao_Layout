@@ -29,20 +29,43 @@ model Product {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  title         String
-  imgUrl        String[]
-  type          String
-  regularPrice  Float
-  discountPrice Float?
+  title String
 
-  Category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId String?
+  Category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
 
-  mass   Mass[]
+  price  Price[]
+  image  Image[]
   notion Notion[]
   desc   Description[]
 
   @@index([categoryId])
+}
+
+model Price {
+  id       String   @id @default(cuid())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  mass          String
+  regularPrice  Float
+  discountPrice Float
+
+  Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String?
+}
+
+model Image {
+  id       String   @id @default(cuid())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  src String
+
+  Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String?
+
+  @@index([productId])
 }
 
 model Description {
@@ -51,7 +74,7 @@ model Description {
   updateAt DateTime @updatedAt
 
   title   String
-  imgUrl  String?
+  imgUrl  String
   content String
 
   Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
@@ -80,9 +103,4 @@ model Mass {
   updateAt DateTime @updatedAt
 
   value String
-
-  Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String?
-
-  @@index([productId])
 }

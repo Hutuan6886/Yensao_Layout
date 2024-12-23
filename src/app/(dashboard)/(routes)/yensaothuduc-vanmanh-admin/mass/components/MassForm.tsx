@@ -48,7 +48,7 @@ const MassForm = () => {
                 </button>
             </div>
             <div className='flex flex-row items-center justify-center gap-2'>
-                <button type='submit' className='bg-[#6ab187] text-white rounded-[0.5rem] px-4 py-2 hover:bg-[#7AC098] transition'>Thêm Mới</button>
+                <button type='submit' className='bg-[#998264] text-white rounded-[0.5rem] px-4 py-2 hover:bg-[#a59075] transition'>Thêm Mới</button>
             </div>
         </form>
     )

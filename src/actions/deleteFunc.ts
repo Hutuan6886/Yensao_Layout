@@ -39,3 +39,25 @@ export const deleteMass = async (id: string) => {
     console.log("SERVER_ERROR_[Delete mass fail!]", error);
   }
 };
+
+export const deleteProduct = async (id: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/product/${id}`,
+      {
+        credentials: "include",
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (res.ok) {
+      console.log("Delete product successfully");
+    } else {
+      console.log("RES_ERROR_[Delete product fail!]");
+    }
+  } catch (error) {
+    console.log("SERVER_ERROR_[Delete product fail!]", error);
+  }
+};

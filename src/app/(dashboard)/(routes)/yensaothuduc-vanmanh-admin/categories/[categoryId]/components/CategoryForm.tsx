@@ -68,7 +68,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryData }) => {
             </div>
             <div className='flex flex-row items-center justify-center gap-2'>
                 <button type='button' className='bg-[#353333] text-white rounded-[0.5rem] px-4 py-2 hover:bg-[#4D4848] transition' onClick={() => resetField("name", { defaultValue: categoryData?.name })}>Hoàn Tác</button>
-                <button type='submit' className='bg-[#6ab187] text-white rounded-[0.5rem] px-4 py-2 hover:bg-[#7AC098] transition'>{categoryData ? "Cập Nhật" : "Tạo Mới"}</button>
+                <button type='submit' className='bg-[#998264] text-white rounded-[0.5rem] px-4 py-2 hover:bg-[#a59075] transition'>{categoryData ? "Cập Nhật" : "Tạo Mới"}</button>
             </div>
         </form>
     )

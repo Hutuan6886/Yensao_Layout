@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import { categoryReducer } from "./features/categorySlice/categorySlice";
 import { massReducer } from "./features/massSlice/massSlice";
+import { productReducer } from "./features/productSlice/productSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       category: categoryReducer,
       mass: massReducer,
+      product: productReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({ serializableCheck: false }),

@@ -50,7 +50,7 @@ const CategoryItemPage = ({ params }: { params: { categoryId: string } }) => {
         <>
             <div className='w-full h-full flex flex-col gap-8'>
                 <div className=' flex flex-row justify-between items-center'>
-                    <label htmlFor="categories" className='font-semibold text-lg'>{categoryData ? "Cập Nhật Tên Danh Mục Sản Phẩm" : "Tạo Mới Tên Danh Mục Sản Phẩm"}</label>
+                    <label htmlFor="categories" className='font-semibold text-lg text-[#998264]'>{categoryData ? "Cập Nhật Tên Danh Mục Sản Phẩm" : "Tạo Mới Tên Danh Mục Sản Phẩm"}</label>
                     <button className={`w-fit h-fit ${categoryData ? "visible opacity-80 hover:scale-125 hover:opacity-100" : "invisible"} transition`}
                         onClick={() => dispatch(openDeleteCategoryModal(categoryData))}
                     ><FcFullTrash size={35} /></button>

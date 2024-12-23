@@ -31,7 +31,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ title, desc, isOpen, onClose,
                         </div>
                         <div className='w-full flex flex-row items-center justify-end gap-2'>
                             <button disabled={isLoading} className='bg-[#353333] text-white rounded-[0.5rem] px-4 py-2 hover:bg-[#4D4848] transition' onClick={onClose}>Huỷ</button>
-                            <button disabled={isLoading} className='bg-[#6ab187] text-white rounded-[0.5rem] px-4 py-2 hover:bg-[#7AC098] transition' onClick={onSubmit}>Đồng Ý</button>
+                            <button disabled={isLoading} className='bg-[#998264] text-white rounded-[0.5rem] px-4 py-2 hover:bg-[#a59075] transition' onClick={onSubmit}>Đồng Ý</button>
                         </div>
                     </div>
                 </div>

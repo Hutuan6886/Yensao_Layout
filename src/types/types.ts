@@ -38,34 +38,51 @@ export type CategoryType = {
 export type ProductsType = {
   id: string;
   title: string;
-  imgUrl: string[];
-  desc?: DescriptionType[];
-  notion?: NotionType[];
 
+  image: ImageType[];
+  desc: DescriptionType[];
+  notion: NotionType[];
+  price: PriceType[];
+
+  Category: CategoryType;
   categoryId: string;
-  mass: MassType[];
-  regularPrice: number;
-  discountPrice?: number;
 
   createAt?: Date;
   updateAt?: Date;
 };
 
+export type ImageType = {
+  id?: string;
+  src: string;
+};
+
 export type DescriptionType = {
+  id?: string;
   title: string;
   imgUrl?: string;
   content: string;
 };
 export type NotionType = {
+  id?: string;
   title?: string;
   content: string;
 };
 export type MassType = {
   id: string;
-  value: string;
-
   createAt?: Date;
   updateAt?: Date;
+
+  value: string;
+};
+
+export type PriceType = {
+  id?: string;
+  createAt?: Date;
+  updateAt?: Date;
+
+  mass: string;
+  regularPrice: number;
+  discountPrice: number | undefined;
 };
 
 export type SidebarSearchType = {
