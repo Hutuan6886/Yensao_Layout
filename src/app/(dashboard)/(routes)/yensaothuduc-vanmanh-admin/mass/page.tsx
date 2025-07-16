@@ -1,10 +1,10 @@
 import React from 'react'
+import { getMass } from '@/actions/getPrismaData'
 import MassForm from './components/MassForm'
-import prismadb from '@/lib/prismadb'
 import MassTable from './components/MassTable'
 
 const page = async () => {
-    const massData = await prismadb.mass.findMany()
+    const massData = await getMass()
 
     return (
         <div className='w-full h-full flex flex-col gap-8'>

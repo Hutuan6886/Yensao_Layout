@@ -1,11 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
+import { getCategories } from '@/actions/getPrismaData'
+import { CategoryType } from '@/types/types'
 import CategoriesTable from './components/CategoriesTable'
-import prismadb from '@/lib/prismadb'
 
 const page = async () => {
     //todo: get all categories from prisma
-    const allCategories = await prismadb.category.findMany()
+    const allCategories: CategoryType[] = await getCategories()
 
     return (
         <div className='w-full h-full flex flex-col gap-8'>

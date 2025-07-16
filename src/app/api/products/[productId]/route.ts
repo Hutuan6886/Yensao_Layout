@@ -1,10 +1,4 @@
 import prismadb from "@/lib/prismadb";
-import {
-  DescriptionType,
-  ImageType,
-  NotionType,
-  PriceType,
-} from "@/types/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -24,7 +18,11 @@ export async function GET(
       },
       include: {
         image: true,
-        price: true,
+        price: {
+          include: {
+            Mass: true,
+          }
+        },
         notion: true,
         desc: true,
       },
@@ -53,7 +51,11 @@ export async function PUT(
         id: params.productId,
       },
       include: {
-        price: true,
+        price: {
+          include: {
+            Mass: true,
+          },
+        },
       },
     });
     if (!existingProduct) {
@@ -61,6 +63,7 @@ export async function PUT(
     }
     const body = await req.json();
     const { title, image, categoryId, price, notion, desc } = body;
+
     //todo: Required
     if (!title) {
       return new NextResponse("Title is required!", { status: 401 });
@@ -76,46 +79,31 @@ export async function PUT(
     if (price.length < 1) {
       return new NextResponse("Price is required!", { status: 401 });
     }
-    //todo:update
-    const formattedImage = image.map((item: ImageType) => ({
-      src: item.src,
-    }));
-    const formattedPrice = price.map((item: PriceType) => ({
-      mass: item.mass,
-      regularPrice: Number(item.regularPrice?.toString().split(".").join("")),
-      discountPrice: Number(item.discountPrice?.toString().split(".").join("")),
-    }));
-    const formattedNotion = notion.map((item: NotionType) => ({
-      title: item.title,
-      content: item.content,
-    }));
-    const formattedDesc = desc.map((item: DescriptionType) => ({
-      title: item.title,
-      imgUrl: item.imgUrl,
-      content: item.content,
-    }));
+
     const productUpdated = await prismadb.product.update({
       where: {
         id: params.productId,
       },
       data: {
         title,
+        minPrice: price[0].regularPrice - price[0].discountPrice,
+        maxPrice: price[price.length - 1].regularPrice - (price[price.length - 1].discountPrice || 0),
         categoryId,
         image: {
           deleteMany: {},
-          create: formattedImage,
+          create: image,
         },
         price: {
           deleteMany: {},
-          create: formattedPrice,
+          create: price,
         },
         notion: {
           deleteMany: {},
-          create: formattedNotion,
+          create: notion,
         },
         desc: {
           deleteMany: {},
-          create: formattedDesc,
+          create: desc,
         },
       },
     });

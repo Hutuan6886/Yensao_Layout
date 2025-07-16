@@ -42,7 +42,7 @@ const DescriptionListForm = <T extends FieldValues>({ name, setValue, descriptio
         }
         setValue(`${name}.${descriptionIndex}.imgUrl` as Path<T>, imgUrl as PathValue<T, Path<T>>)
         if (imgUrl) {
-            setImgUrl('')
+            setImgUrl(undefined)
         }
         setValue(`${name}.${descriptionIndex}.content` as Path<T>, content as PathValue<T, Path<T>>)
         if (contentRef.current?.value) {

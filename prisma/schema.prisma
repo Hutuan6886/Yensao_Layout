@@ -34,6 +34,9 @@ model Product {
   Category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String
 
+  minPrice Float
+  maxPrice Float
+
   price  Price[]
   image  Image[]
   notion Notion[]
@@ -47,12 +50,14 @@ model Price {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  mass          String
   regularPrice  Float
   discountPrice Float
 
   Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String?
+
+  Mass   Mass   @relation(fields: [massId], references: [id])
+  massId String
 }
 
 model Image {
@@ -74,7 +79,7 @@ model Description {
   updateAt DateTime @updatedAt
 
   title   String
-  imgUrl  String
+  imgUrl  String?
   content String
 
   Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
@@ -102,5 +107,7 @@ model Mass {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  value String
+  value Int
+
+  Price Price[]
 }

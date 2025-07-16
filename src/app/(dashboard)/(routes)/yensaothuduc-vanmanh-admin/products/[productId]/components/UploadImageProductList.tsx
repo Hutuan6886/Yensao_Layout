@@ -1,7 +1,7 @@
 'use client'
 import React, { ChangeEvent, useRef } from 'react'
 import cuid from 'cuid';
-import { getUploadedImageUrl, uploadImage } from '@/actions/cloudflareFunc';
+import { uploadImage } from '@/actions/cloudflareFunc';
 import { IoImagesOutline } from "react-icons/io5";
 import { FieldValues, Path, PathValue, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { ImageType } from '@/types/types';
@@ -19,33 +19,29 @@ const UploadImageProductList = <T extends FieldValues>({ name, setValue, watch }
             inputRef.current.click()
         }
     }
-
+    
     const handleUploadImageList = async (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         const fileList = e.target.files as FileList
 
-        //todo: Upload image list
-        const promisesUpload: string[] = []
-        for (const file of fileList) {
+        // Upload all files in parallel
+        const uploadPromises = Array.from(fileList).map(async (file) => {
             const formData = new FormData()
             formData.append('file', file)
-            promisesUpload.push(await uploadImage(formData))
-        }
-        await Promise.all(promisesUpload).then(async (fileNameList: string[]) => {
-            //todo: Get uploaded image url
-            const promisesGetUrl: string[] = []
-            for (const fileName of fileNameList) {
-                promisesGetUrl.push(await getUploadedImageUrl(fileName))
+            const imageUrl = await uploadImage(formData) // imageUrl là public url
+            return {
+                id: cuid(),
+                src: imageUrl
             }
-            await Promise.all(promisesGetUrl).then(async (urlList: string[]) => {
-                //todo: create unique id for each imgUrl in order that Framer motion work possible
-                const imageList: ImageType[] = urlList.map((url: string) => ({
-                    id: cuid(),
-                    src: url
-                }))
-                setValue(name, [...watch(name), ...imageList as PathValue<T, Path<T>>] as PathValue<T, Path<T>>)
-            })
         })
+
+        const uploadedImages: ImageType[] = await Promise.all(uploadPromises)
+
+        // Set value for react-hook-form
+        setValue(
+            name,
+            [...watch(name), ...uploadedImages as PathValue<T, Path<T>>] as PathValue<T, Path<T>>
+        )
     }
 
     return (

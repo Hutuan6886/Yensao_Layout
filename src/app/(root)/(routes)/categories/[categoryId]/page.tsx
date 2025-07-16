@@ -1,16 +1,20 @@
 import React from 'react'
-import { dataProducts } from '../../page'
+import { CategoryType, ProductType } from '@/types/types'
 import ProductsList from '@/components/Products/ProductsList'
 import ContainerWithTitle from '@/components/ui/ContainerWithTitle'
+import { getCategoryById, getProductsByCategoryId } from '@/actions/getPrismaData'
 
-const CategoryItemPage = ({ params }: { params: { productId: string } }) => {
+const CategoryItemPage = async ({ params }: { params: { categoryId: string } }) => {
+    const [category, products]: [CategoryType | null, ProductType[]] = await Promise.all([getCategoryById(params.categoryId), getProductsByCategoryId(params.categoryId)])
+
     return (
-        <ContainerWithTitle title="Sản Phẩm">
+        <ContainerWithTitle title={`Danh Mục ${category?.name}`}>
             <div className='w-[95%] m-auto h-fit '>
-                <ProductsList dataProductsList={dataProducts} seeMoreButton={false} />
+                <ProductsList dataProductsList={products} />
             </div>
         </ContainerWithTitle>
     )
 }
 
 export default CategoryItemPage
+

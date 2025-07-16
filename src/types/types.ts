@@ -35,7 +35,7 @@ export type CategoryType = {
   name: string;
 };
 
-export type ProductsType = {
+export type ProductType = {
   id: string;
   title: string;
 
@@ -59,7 +59,7 @@ export type ImageType = {
 export type DescriptionType = {
   id?: string;
   title: string;
-  imgUrl?: string;
+  imgUrl?: string | null;
   content: string;
 };
 export type NotionType = {
@@ -72,7 +72,7 @@ export type MassType = {
   createAt?: Date;
   updateAt?: Date;
 
-  value: string;
+  value: number;
 };
 
 export type PriceType = {
@@ -80,9 +80,10 @@ export type PriceType = {
   createAt?: Date;
   updateAt?: Date;
 
-  mass: string;
+  Mass: MassType
+  massId: string
   regularPrice: number;
-  discountPrice: number | undefined;
+  discountPrice?: number;
 };
 
 export type SidebarSearchType = {
@@ -100,3 +101,9 @@ export type ModalType = {
   onClose: () => void;
   onSubmit: () => void;
 };
+
+export type SearchParamsType = {
+  priceMin?: string; priceMax?: string; type?: string; mass?: string; page?: string; limit?: string; skip?: string; sortField?: string;
+  sortOrder?: string;
+}
+

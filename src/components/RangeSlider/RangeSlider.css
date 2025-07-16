@@ -1,34 +1,34 @@
 /*todo: to CHROME, SAFARI, OPERA */
 #range-slider::-webkit-slider-thumb {
-    appearance: none;
-    z-index: 10;
-    width: 15px;
-    height: 15px;
-    border: none;
-    border-radius: 50px;
-    background-color: #c58c37;
-    cursor: grab
+  appearance: none;
+  z-index: 10;
+  width: 15px;
+  height: 15px;
+  border: none;
+  border-radius: 50px;
+  background-color: #661a1a;
+  cursor: grab;
 }
 /*todo: to FIREFOX */
 #range-slider::-moz-range-thumb {
-    appearance: none;
-    z-index: 10;
-    width: 15px;
-    height: 15px;
-    border: none;
-    border-radius: 50px;
-    background-color: #c58c37;
-    cursor: grab
+  appearance: none;
+  z-index: 10;
+  width: 15px;
+  height: 15px;
+  border: none;
+  border-radius: 50px;
+  background-color: #661a1a;
+  cursor: grab;
 }
 
 /*todo:  to EXPLORE*/
 #range-slider::-ms-thumb {
-    appearance: none;
-    z-index: 10;
-    width: 15px;
-    height: 15px;
-    border: none;
-    border-radius: 50px;
-    background-color: #c58c37;
-    cursor: grab
+  appearance: none;
+  z-index: 10;
+  width: 15px;
+  height: 15px;
+  border: none;
+  border-radius: 50px;
+  background-color: #661a1a;
+  cursor: grab;
 }

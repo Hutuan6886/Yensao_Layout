@@ -1,5 +1,5 @@
-import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
+import MainNavbar from "@/components/Navbar/MainNavbar";
 
 export default function RootLayout({
   children,
@@ -8,7 +8,7 @@ export default function RootLayout({
 }>) {
   return (
     <div className="relative flex flex-col gap-4">
-      <Navbar />
+      <MainNavbar />
       {children}
       <Footer />
     </div>

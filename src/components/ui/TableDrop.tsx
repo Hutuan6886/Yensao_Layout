@@ -13,7 +13,6 @@ const TableDrop: React.FC<TableDropProps> = ({ index, itemActive, handleDrop }) 
     const [isShowDrop, setIsShowDrop] = useState<boolean>(false)
 
     if (!itemActive) return null
-    console.log("itemActive", itemActive.height);
 
     return (
         <div className={`w-full

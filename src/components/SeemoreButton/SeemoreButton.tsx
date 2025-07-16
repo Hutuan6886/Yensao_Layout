@@ -1,34 +1,37 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React from 'react'
+import useToggle from '@/hooks/useToggle'
 import { FaChevronRight } from 'react-icons/fa'
 
-const SeemoreButton = () => {
-    const [isHoverSeemoreIcon, setIsHoverSeemoreIcon] = useState<boolean>(false)
-    const seemoreIcon = useRef<HTMLSpanElement>(null)
+interface SeemoreButtonProps {
+    label: string;
+    onClick: () => void;
+}
+
+const SeemoreButton: React.FC<SeemoreButtonProps> = ({ label, onClick }) => {
+    const { isOpen: isHover, setIsOpen: setIsHover } = useToggle()
 
     return (
-        <button className='relative w-fit m-auto flex flex-col gap-1 
-                text-zinc-500 italic
-                group'
-            onMouseEnter={() => setIsHoverSeemoreIcon(true)}
-            onMouseLeave={() => setIsHoverSeemoreIcon(false)}
+        <button
+            className='relative w-fit m-auto flex flex-col items-center gap-1 group text-zinc-500 italic'
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+            onClick={onClick}
         >
-            <div className='flex flex-row items-center justify-center gap-2 
-                    italic text-nowrap
-                    group-hover:not-italic transition ease-in-out duration-300'>
-                Xem thêm
-                <div style={{
-                    width: isHoverSeemoreIcon ? seemoreIcon.current?.offsetWidth || 0 : 0,
-                    opacity: isHoverSeemoreIcon ? 1 : 0,
-                    translate: isHoverSeemoreIcon ? "0" : "-10px",
-                    transition: '.2s ease-out'
-                }}>
-                    <span ref={seemoreIcon}><FaChevronRight size={8} /></span>
-                </div>
+            <div className='flex items-center gap-1 transition-all duration-300'>
+                <span className='group-hover:not-italic'>{label}</span>
+                <FaChevronRight
+                    size={10}
+                    className={`transition-all duration-200
+                        ${isHover ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}
+                    `}
+                />
             </div>
-            <hr className=' w-0 h-0
-                    before:contents-[""] before:absolute before:bottom-0 before:left-0 before:w-[0%] before:border before:border-transparent before:transition-all before:ease-in-out before:duration-300
-                    group-hover:before:w-[100%] group-hover:before:border-[#998264] '/>
+
+            {/* underline animation */}
+            <div className='relative w-full h-[1px] bg-transparent'>
+                <div className='absolute bottom-0 left-0 h-[2px] w-0 bg-[#998264] transition-all duration-300 group-hover:w-full'></div>
+            </div>
         </button>
     )
 }

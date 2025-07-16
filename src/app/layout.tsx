@@ -18,7 +18,7 @@ const geistMono = localFont({
 //todo: Change text type 
 const quicksand = Quicksand({
   weight: '400',
-  subsets: ['latin'],
+  subsets: ['vietnamese'],
 })
 
 export const metadata: Metadata = {

@@ -29,7 +29,7 @@ const RangeSlider = <T extends FieldValues>({ label, name, register, watch, min,
                     />
                     <div style={{
                         width: `${((watch(name) / max) * 100)}%`
-                    }} className='absolute z-0 h-[2px] top-0 left-0 bg-[#c58c37]'></div>
+                    }} className='absolute z-0 h-[2px] top-0 left-0 bg-[#661a1a]'></div>
                 </div>
                 <div className='flex flex-row items-center justify-between'>
                     <p className='text-sm'>{formatterCurrency.format(0)}</p>

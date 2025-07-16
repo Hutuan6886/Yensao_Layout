@@ -43,7 +43,7 @@ export const deleteMass = async (id: string) => {
 export const deleteProduct = async (id: string) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/product/${id}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${id}`,
       {
         credentials: "include",
         method: "DELETE",

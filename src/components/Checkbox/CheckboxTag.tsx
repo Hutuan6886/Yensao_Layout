@@ -13,11 +13,11 @@ const CheckboxTag: React.FC<CheckboxTagProps> = ({ label, value, checked, onChan
         <div className='relative'>
             <input type="checkbox" value={value} checked={checked} onChange={onChange}
                 className={`absolute top-0 left-0 
-                        appearance-none border w-full h-full cursor-pointer ${checked ? "border-[#c58c37]" : "border-black hover:border-zinc-500"} transition`} />
-            <p className={`text-sm px-3 py-1 ${checked ? "text-[#c58c37]" : "hover:text-zinc-500"} transition`}>
+                        appearance-none border w-full h-full cursor-pointer ${checked ? "border-[#661a1a]" : "border-black hover:border-zinc-500"} transition`} />
+            <p className={`text-sm px-3 py-1 ${checked ? "text-[#661a1a]" : "hover:text-zinc-500"} transition`}>
                 {label}
             </p>
-            <div className={`before:contents-[] before:absolute before:bottom-0 before:right-0 before:border-l-[10px] before:border-l-[#c58c37] before:border-b-[10px] before:border-b-transparent before:border-t-[10px] before:border-t-transparent before:border-[#c58c37] before:rotate-45 before:translate-x-[1px] before:translate-y-[6px]
+            <div className={`before:contents-[] before:absolute before:bottom-0 before:right-0 before:border-l-[10px] before:border-l-[#661a1a] before:border-b-[10px] before:border-b-transparent before:border-t-[10px] before:border-t-transparent before:border-[#661a1a] before:rotate-45 before:translate-x-[1px] before:translate-y-[6px]
                 ${checked ? "opacity-100" : "opacity-0"} transition`}></div>
             <BsCheck className={`absolute -bottom-[0.1rem] -right-[0.1rem] text-white 
                                 ${checked ? "opacity-100" : "opacity-0"}`} size={13} />

@@ -8,13 +8,15 @@ interface ButtonPosterProps {
   children: React.ReactNode
   className?: string
   isShowIcon?: boolean
+  onClick?: () => void
 }
-const ButtonPoster: React.FC<ButtonPosterProps> = ({ children, className, isShowIcon }) => {
+const ButtonPoster: React.FC<ButtonPosterProps> = ({ children, className, isShowIcon, onClick }) => {
   const [isHoverButton, setIsHoverButton] = useState<boolean>(false)
   return (
-    <button className={cn('relative flex flex-row items-center justify-center gap-2 w-fit h-auto px-5 md:px-8 py-2 border border-white text-white before:contents-[""] before:absolute before:top-0 before:left-0 before:w-[0%] before:h-full before:bg-[#c58c37] before:-z-10 before:transition-all before:duration-500 hover:before:w-[100%]', className)}
+    <button className={cn('relative flex flex-row items-center justify-center gap-2 w-fit h-auto px-5 md:px-8 py-2 border border-white text-white before:contents-[""] before:absolute before:top-0 before:left-0 before:w-[0%] before:h-full before:bg-[#471011] before:-z-10 before:transition-all before:duration-500 hover:z-0 hover:before:w-[100%]', className)}
       onMouseEnter={() => setIsHoverButton(true)}
       onMouseLeave={() => setIsHoverButton(false)}
+      onClick={onClick}
     >
       {children}
       {isShowIcon && isHoverButton

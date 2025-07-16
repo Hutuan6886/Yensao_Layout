@@ -10,9 +10,9 @@ import { SideBarDashboard } from '@/types/types'
 const Sidebar = () => {
     const pathname = usePathname()
     const SidebarData: SideBarDashboard[] = [
-        { title: "Danh Sách Danh Mục", icon: <BiCategory />, href: "/yensaothuduc-vanmanh-admin/categories", isActive: pathname === "/yensaothuduc-vanmanh-admin/categories" },
-        { title: "Danh Sách Khối Lượng", icon: <FcBiomass />, href: "/yensaothuduc-vanmanh-admin/mass", isActive: pathname === "/yensaothuduc-vanmanh-admin/mass" },
-        { title: "Danh Sách Sản Phẩm", icon: <FaRegListAlt />, href: "/yensaothuduc-vanmanh-admin/products", isActive: pathname === "/yensaothuduc-vanmanh-admin/products" }]
+        { title: "Danh Sách Danh Mục", icon: <BiCategory />, href: "/yensaothuduc-vanmanh-admin/categories", isActive: pathname.includes("/yensaothuduc-vanmanh-admin/categories/") },
+        { title: "Danh Sách Khối Lượng", icon: <FcBiomass />, href: "/yensaothuduc-vanmanh-admin/mass", isActive: pathname.includes("/yensaothuduc-vanmanh-admin/mass/") },
+        { title: "Danh Sách Sản Phẩm", icon: <FaRegListAlt />, href: "/yensaothuduc-vanmanh-admin/products", isActive: pathname.includes("/yensaothuduc-vanmanh-admin/products/") }]
     return (
         <div className='relative w-full h-full'>
             <div className='absolute top-1/2 left-2 -translate-y-1/2 w-full h-[98%] bg-white shadow-lg rounded-[0.9rem] p-5'>

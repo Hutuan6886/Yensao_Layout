@@ -11,7 +11,7 @@ const DiscountPrice: React.FC<DiscountPriceProps> = ({ price }) => {
             <hr className='w-full border-1
                             absolute top-1/2 left-0 rotate-[-7deg]
                             border-1 border-zinc-500'/>
-            <p className='text-sm md:text-base text-zinc-500'>{formatterCurrency.format(price)}</p>
+            <p className='text-xs md:text-base text-zinc-500'>{formatterCurrency.format(price)}</p>
         </div>
     )
 }

@@ -1,12 +1,22 @@
-import { ProductsType } from "@/types/types";
+import { DescriptionType, NotionType, ProductType } from "@/types/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface DeleteProductModalType {
-  productState: ProductsType;
+  productState: ProductType;
   isOpen: boolean;
+}
+interface EditNotionType {
+  data: NotionType;
+  index?: number;
+}
+interface EditDescriptionType {
+  data: DescriptionType;
+  index?: number;
 }
 interface ProductReduxType {
   productModal: DeleteProductModalType;
+  editNotion: EditNotionType;
+  editDescription: EditDescriptionType;
 }
 
 const initialState: ProductReduxType = {
@@ -26,13 +36,31 @@ const initialState: ProductReduxType = {
     },
     isOpen: false,
   },
+  editNotion: {
+    data: {
+      id: "",
+      title: "",
+      content: "",
+    },
+    index: undefined,
+  },
+  editDescription: {
+    data: {
+      id: "",
+      title: "",
+      imgUrl: "",
+      content: "",
+    },
+    index: undefined,
+  },
 };
 
 export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    openDeleteProductModal: (state, action: PayloadAction<ProductsType>) => {
+    //todo: Modal
+    openDeleteProductModal: (state, action: PayloadAction<ProductType>) => {
       state.productModal.productState = action.payload;
       state.productModal.isOpen = true;
     },
@@ -52,9 +80,13 @@ export const productSlice = createSlice({
       };
       state.productModal.isOpen = false;
     },
+    //todo: Edit Notion, Desc
+    updateNotion: (state, action: PayloadAction<EditNotionType>) => {
+      state.editNotion = action.payload;
+    },
   },
 });
 
-export const { openDeleteProductModal, closeDeleteProductModal } =
+export const { openDeleteProductModal, closeDeleteProductModal, updateNotion } =
   productSlice.actions;
 export const productReducer = productSlice.reducer;

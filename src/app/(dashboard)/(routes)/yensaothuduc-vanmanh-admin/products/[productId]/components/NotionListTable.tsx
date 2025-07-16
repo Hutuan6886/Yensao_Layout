@@ -4,6 +4,9 @@ import { FieldValues, Path, PathValue, UseFormSetValue } from 'react-hook-form'
 import { NotionItemDragDropActiveType, NotionType } from '@/types/types'
 import NotionItemTable from './NotionItemTable'
 import TableDrop from '@/components/ui/TableDrop'
+import { motion } from 'framer-motion'
+import { useDispatch } from 'react-redux'
+import { updateNotion } from '@/lib/features/productSlice/productSlice'
 
 type NotionListTableProps<T extends FieldValues> = {
     name: Path<T>
@@ -13,6 +16,8 @@ type NotionListTableProps<T extends FieldValues> = {
 
 const NotionListTable = <T extends FieldValues>({ name, setValue, notionList }: NotionListTableProps<T>) => {
     const [itemActive, setItemActive] = useState<NotionItemDragDropActiveType | undefined>(undefined)
+
+    const dispatch = useDispatch()
 
     const handleDragStart = (item: NotionItemDragDropActiveType) => {
         setItemActive(item)
@@ -58,17 +63,33 @@ const NotionListTable = <T extends FieldValues>({ name, setValue, notionList }: 
     }
 
     return (
-        <div className='w-full flex flex-col gap-2'>
+        <motion.div layout className='w-full flex flex-col gap-2'>
             <TableDrop index={0} itemActive={itemActive} handleDrop={handleDrop} />
             {
                 notionList?.map((notion: NotionType, i: number) => (
                     <Fragment key={notion.id}>
-                        <NotionItemTable notionData={notion} index={i + 1} itemActiveIndex={itemActive?.index} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} onDeleteNotion={() => setValue(name, notionList.filter((item: NotionType) => item.id !== notion.id) as PathValue<T, Path<T>>)} />
+                        <NotionItemTable notionData={notion}
+                            index={i + 1}
+                            itemActiveIndex={itemActive?.index}
+                            handleDragStart={handleDragStart}
+                            handleDragEnd={handleDragEnd}
+                            onEditNotion={() => dispatch(updateNotion({ data: notion, index: i }))}
+                            onSaveNotion={() => {
+                                //todo: quản lý form trên redux set giá trị form vào watch tại đây
+                                dispatch(updateNotion({
+                                    data: {
+                                        id: "",
+                                        title: "",
+                                        content: "",
+                                    }, index: undefined
+                                }))
+                            }}
+                            onDeleteNotion={() => setValue(name, notionList.filter((item: NotionType) => item.id !== notion.id) as PathValue<T, Path<T>>)} />
                         <TableDrop index={i + 1} itemActive={itemActive} handleDrop={handleDrop} />
                     </Fragment>
                 ))
             }
-        </div>
+        </motion.div>
     )
 }
 

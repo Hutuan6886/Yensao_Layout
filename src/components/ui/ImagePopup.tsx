@@ -1,10 +1,17 @@
 "use client"
-import React, { MouseEvent, useEffect, useState } from 'react'
+import React, { MouseEvent, useState } from 'react'
 import Image from 'next/image'
 import { motion } from "framer-motion"
+
+import { ImageType } from '@/types/types'
+
+import useSlidingImage from '@/hooks/useSlidingImage'
+import useSize from '@/hooks/useSize'
+
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { IoCloseOutline } from 'react-icons/io5'
-import useSize from '@/hooks/useSize'
+
+
 
 const fadeInAnimationOpen = {
     invisible: {
@@ -25,36 +32,23 @@ const fadeInAnimationOpen = {
 }
 
 interface ImagePopupProps {
-    dataImage: string[]
+    images: ImageType[]
     imageShowIndex: number
     onClose: () => void
 }
-const ImagePopup: React.FC<ImagePopupProps> = ({ dataImage, imageShowIndex, onClose }) => {
-    //todo: state image slider
-    const [posterIndex, setPosterIndex] = useState<number>(imageShowIndex)
+const ImagePopup: React.FC<ImagePopupProps> = ({ images, imageShowIndex, onClose }) => {
+    //todo: image slider hook
+    const { indexImg, previousContentClick, nextContentClick } = useSlidingImage<ImageType>(images, imageShowIndex)
+    //todo: window size hook
     const { clientWidth, clientHeight } = useSize()
-    //todo: state zoom image
+
+    //todo: Zoom image
     const [imageClicked, setImageClicked] = useState<string | null>("") //* image zoom click
     const [position, setPosition] = useState<string>("50% 50%") //* Vị trí zoom click
     const [zoom, setZoom] = useState<number>(1) //* Biến cờ bật zoom hoặc tắt zoom
     const realzoom = zoom === 1 ? "cover" : `${zoom * 100}%`
 
-    const imagePreviousClick = () => {
-        if (posterIndex === 0) {
-            setPosterIndex(dataImage.length - 1)
-        } else {
-            setPosterIndex(posterIndex - 1)
-        }
-    }
-    const imageNextClick = () => {
-        if (posterIndex === dataImage.length - 1) {
-            setPosterIndex(0)
-        } else {
-            setPosterIndex(posterIndex + 1)
-        }
-    }
 
-    //todo: Zoom Image
     const zoomInPosition = (e: MouseEvent) => {
         //todo: This will handle the calculation of the area where the image need to zoom in depend
         const zoomer = e.currentTarget.getBoundingClientRect()
@@ -81,7 +75,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({ dataImage, imageShowIndex, onCl
             zoomInPosition(e)
         }
     }
-    const handleZoomLeave = (e: MouseEvent) => {
+    const handleZoomLeave = () => {
         setZoom(1)
     }
 
@@ -113,9 +107,9 @@ const ImagePopup: React.FC<ImagePopupProps> = ({ dataImage, imageShowIndex, onCl
                                 ></div>
                                 : <div className={`flex flex-row items-center justify-start overflow-hidden`}>
                                     {
-                                        dataImage.map((imgUrl: string, i: number) => (
-                                            <Image key={i} src={imgUrl} alt={imgUrl} width={0} height={0} sizes='100vw' className='min-w-full cursor-zoom-in transition-all' style={{
-                                                translate: `${-posterIndex * 100}%`,
+                                        images.map((image: ImageType) => (
+                                            <Image key={image.id} src={image.src} alt={image.src} width={0} height={0} sizes='100vw' className='min-w-full cursor-zoom-in transition-all' style={{
+                                                translate: `${-indexImg * 100}%`,
                                             }}
                                                 onClick={zoomIn} />
                                         ))
@@ -125,7 +119,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({ dataImage, imageShowIndex, onCl
                         {
                             zoom === 1 && <>
                                 <button className='absolute top-0 left-0 w-[10%] h-full group transition-all duration-500'
-                                    onClick={imagePreviousClick}
+                                    onClick={previousContentClick}
                                 >
                                     <div className='relative w-[50%] md:w-full h-full'>
                                         <div className='absolute top-0 left-0 w-full h-full bg-black opacity-10 md:opacity-0 md:group-hover:opacity-20 transition-all duration-500'></div>
@@ -133,7 +127,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({ dataImage, imageShowIndex, onCl
                                     </div>
                                 </button>
                                 <button className='absolute top-0 right-0 w-[10%] h-full group transition-all duration-500'
-                                    onClick={imageNextClick}
+                                    onClick={nextContentClick}
                                 >
                                     <div className='relative w-[50%] translate-x-full md:w-full md:translate-x-0 h-full'>
                                         <div className='absolute top-0 left-0 w-full h-full bg-black opacity-10 md:opacity-0 md:group-hover:opacity-20 transition-all duration-500'></div>

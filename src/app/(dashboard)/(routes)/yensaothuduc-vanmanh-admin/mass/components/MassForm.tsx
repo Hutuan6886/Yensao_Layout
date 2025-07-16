@@ -32,20 +32,25 @@ const MassForm = () => {
 
     return (
         <form className='flex flex-row items-center justify-center gap-8' onSubmit={handleSubmit(submitMassForm)}>
-            <div className='relative flex flex-row items-center justify-start gap-3'>
+            <div className='flex flex-row items-center justify-start gap-3'>
                 <h3 className='font-semibold'>Khối lượng</h3>
-                <input {...register("value")} type="text" placeholder='50g' className='w-[300px] rounded-[0.5rem] p-2 placeholder:text-sm' />
-                <button type='button' className='absolute top-1/2 -translate-y-1/2 right-2
+                <div className='flex flex-row items-center gap-1'>
+                    <div className='relative w-full'>
+                        <input {...register("value")} type="number" placeholder='50' className='w-[70px] rounded-[0.5rem] p-2 placeholder:text-sm' />
+                        <button type='button' className='absolute top-1/2 -translate-y-1/2 right-2
                                 bg-[#353333] rounded-[50px]'
-                    onClick={() => reset()}
-                >
-                    {
-                        watch('value')
-                            ? <IoCloseOutline className='text-white' />
-                            : null
-                    }
+                            onClick={() => reset()}
+                        >
+                            {
+                                watch('value')
+                                    ? <IoCloseOutline className='text-white' />
+                                    : null
+                            }
 
-                </button>
+                        </button>
+                    </div>
+                    <p className='text-sm text-nowrap'>/gram</p>
+                </div>
             </div>
             <div className='flex flex-row items-center justify-center gap-2'>
                 <button type='submit' className='bg-[#998264] text-white rounded-[0.5rem] px-4 py-2 hover:bg-[#a59075] transition'>Thêm Mới</button>

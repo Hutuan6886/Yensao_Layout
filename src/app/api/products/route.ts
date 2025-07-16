@@ -1,5 +1,4 @@
 import prismadb from "@/lib/prismadb";
-import { ImageType, PriceType } from "@/types/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -9,6 +8,7 @@ export async function POST(req: NextRequest) {
     }
     const body = await req.json();
     const { title, image, categoryId, price, notion, desc } = body;
+
     //todo: Required
     if (!title) {
       return new NextResponse("Title is required!", { status: 401 });
@@ -25,24 +25,17 @@ export async function POST(req: NextRequest) {
       return new NextResponse("Price is required!", { status: 401 });
     }
 
-    //todo: create product
-    const formattedImage = image.map((item: ImageType) => ({
-      src: item.src,
-    }));
-    const formattedPrice = price.map((item: PriceType) => ({
-      mass: item.mass,
-      regularPrice: Number(item.regularPrice?.toString().split(".").join("")),
-      discountPrice: Number(item.discountPrice?.toString().split(".").join("")),
-    }));
     const productCreated = await prismadb.product.create({
       data: {
         title,
+        minPrice: price[0].regularPrice - price[0].discountPrice,
+        maxPrice: price[price.length - 1].regularPrice - (price[price.length - 1].discountPrice || 0),
         categoryId,
         image: {
-          create: formattedImage,
+          create: image,
         },
         price: {
-          create: formattedPrice,
+          create: price,
         },
         notion: {
           create: notion,
@@ -67,7 +60,11 @@ export async function GET(req: NextRequest) {
     const products = await prismadb.product.findMany({
       include: {
         image: true,
-        price: true,
+        price: {
+          include: {
+            Mass: true,
+          },
+        },
         notion: true,
         desc: true,
       },

@@ -1,4 +1,7 @@
-const hostnames = ["firebasestorage.googleapis.com","yen-sao-image-storage.e0265199dcb8843944806be1d7f56406.r2.cloudflarestorage.com"];
+const hostnames = [
+  "firebasestorage.googleapis.com",
+  "pub-ef499826836f4a1ab474f7d2ac0fb755.r2.dev",
+];
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

@@ -4,6 +4,10 @@ import { NotionItemDragDropActiveType, NotionType } from '@/types/types'
 import { MdOutlineDragIndicator } from 'react-icons/md'
 import { IoClose } from 'react-icons/io5'
 import { motion } from 'framer-motion'
+import { AiFillEdit } from 'react-icons/ai'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/lib/store'
+import { IoMdCloudDone } from 'react-icons/io'
 
 interface NotionItemTableProps {
     notionData: NotionType
@@ -13,11 +17,14 @@ interface NotionItemTableProps {
     itemActiveIndex: number | undefined
     handleDragStart: (item: NotionItemDragDropActiveType) => void
     handleDragEnd: () => void
+    onEditNotion: () => void
+    onSaveNotion: () => void
     onDeleteNotion: () => void
 }
 
-const NotionItemTable: React.FC<NotionItemTableProps> = ({ notionData, index, itemActiveIndex, handleDragStart, handleDragEnd, onDeleteNotion }) => {
+const NotionItemTable: React.FC<NotionItemTableProps> = ({ notionData, index, itemActiveIndex, handleDragStart, handleDragEnd, onEditNotion, onSaveNotion, onDeleteNotion }) => {
 
+    const { data } = useSelector((state: RootState) => state.product.editNotion)
     const notionItemRef = useRef<HTMLDivElement>(null)
 
     return (
@@ -39,11 +46,27 @@ const NotionItemTable: React.FC<NotionItemTableProps> = ({ notionData, index, it
                 {/* //* style={{ whiteSpace: 'pre-line' }} render text with break paragraph */}
                 <p style={{ whiteSpace: 'pre-line' }}>{notionData.content}</p>
             </motion.div>
-            <button type='button' className='hover:scale-110 transition'
-                onClick={onDeleteNotion}
-            >
-                <IoClose />
-            </button>
+            <div className='flex flex-row items-center justify-start gap-2'>
+                {
+                    data.id === notionData.id
+                        ?
+                        <button type='button' className='hover:scale-110 transition'
+                            onClick={onSaveNotion}
+                        >
+                            <IoMdCloudDone />
+                        </button>
+                        : <button type='button' className='hover:scale-110 transition'
+                            onClick={onEditNotion}
+                        >
+                            {<AiFillEdit />}
+                        </button>
+                }
+                <button type='button' className='hover:scale-110 transition'
+                    onClick={onDeleteNotion}
+                >
+                    <IoClose />
+                </button>
+            </div>
         </div>
     )
 }

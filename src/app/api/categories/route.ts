@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { CategoryType } from "@/types/types";
 import prismadb from "@/lib/prismadb";
 
@@ -43,4 +43,28 @@ export async function GET(req: Request) {
     console.log("[CATEGORIES_GET]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
+}
+
+//todo: UPDATE SORT CATEGORIES
+export async function PUT(req: NextRequest) {
+  try {
+    if (req.method != "PUT") {
+      return new NextResponse("Method is available!", { status: 401 });
+    }
+    const categories: CategoryType[] = await req.json();
+    console.log("categories", categories);
+
+    //todo:dùng for update tuần tự thành phần trong mảng => promiseAll
+    for (const category of categories) {
+      await prismadb.category.update({
+        where: {
+          id: category.id,
+        },
+        data: {
+          name: category.name,
+        },
+      });
+    }
+    return NextResponse.json("", { status: 200 });
+  } catch (error) {}
 }

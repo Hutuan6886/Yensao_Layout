@@ -27,12 +27,14 @@ export async function POST(req: NextRequest) {
     Key: file.name,
     ContentType: file.type,
     Body: buffer,
+    ACL: "public-read",
   });
-
   try {
     //todo: send putObjectCommand to R2 bucket
     await r2Bucket.send(putObjectCommand);
-    return NextResponse.json(file.name, { status: 200 }); //* return file name to generate the img url
+    const publicUrl: string = `${process.env.PUBLIC_R2_URL}/${file.name}`
+    console.log(publicUrl)
+    return NextResponse.json(publicUrl, { status: 200 }); //* return publicUrl
   } catch (error) {
     console.log("[POST_IMAGE_UPLOAD_ERROR]", error);
     return new NextResponse("Internal Error", { status: 500 });

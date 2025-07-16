@@ -1,13 +1,14 @@
 "use client"
-import React, { Fragment, useEffect, useMemo, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
-import useWindowSize from '@/hooks/useWindowSize'
 import { MainNavType } from '@/types/types'
 import { cn } from '@/lib/utils'
 
 import { FaChevronDown } from 'react-icons/fa'
-import Link from 'next/link'
+import useSize from '@/hooks/useSize'
+import useToggle from '@/hooks/useToggle'
 
 interface MainNavProps {
     dataNav: MainNavType[]
@@ -15,35 +16,30 @@ interface MainNavProps {
 }
 
 const MainNav: React.FC<MainNavProps> = ({ dataNav, className }) => {
-
     //todo: state dropdown
     const [activeDropdown, setActiveDropdown] = useState<number | undefined>(undefined)
-    const [isActiveDropdown, setIsActiveDropdown] = useState<boolean>(false)
+    //todo: Open or close dropdown
+    const { isOpen, setIsOpen } = useToggle()
 
     //todo: state clientWidth
-    const [clientWidth, setClientWidth] = useState<number>(0)
+    const { clientWidth } = useSize()
 
-    //todo: width screen
-    const clientScreenWidth = useWindowSize()
-    useEffect(() => {
-        if (clientScreenWidth) {
-            setClientWidth(clientScreenWidth)
-        }
-    }, [clientScreenWidth])
 
     //todo: handle open dropdown for mobile screen
-    const handleClickNavForMobile = (i: number) => {
-        if (!isActiveDropdown) {
+    const handleClickNavForMobile = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation()
+        const i = Number(e.currentTarget.getAttribute("aria-valuenow"))
+        if (!isOpen) {
             setActiveDropdown(i)
         } else {
             setActiveDropdown(undefined)
         }
-        setIsActiveDropdown(!isActiveDropdown)
+        setIsOpen(!isOpen)
     }
 
     return (
         <div className={cn("w-full h-auto", className)}>
-            <div className='flex flex-row items-center justify-center gap-x-10'>
+            <div className='flex flex-row items-center justify-center gap-x-20'>
                 {
                     dataNav.map((navItem: MainNavType, i: number) => (
                         <Fragment key={i}>
@@ -55,16 +51,13 @@ const MainNav: React.FC<MainNavProps> = ({ dataNav, className }) => {
                             >
                                 <Link href={navItem.href} className='flex flex-row items-center justify-start gap-2 group'>
                                     <p className={`${clientWidth > 769 && clientWidth < 904 ? "text-[0.9rem] tracking-0" : "text-[1.05rem] tracking-[.06rem]"}  font-semibold 
-                                                    group-hover:text-[#c58c37] transition cursor-pointer`}>{navItem.title}</p>
-                                    <div className='w-fit h-fit' onClick={() => handleClickNavForMobile(i)} >
+                                                    group-hover:text-[#c62101] transition cursor-pointer`}>{navItem.title}</p>
+                                    <div className='w-fit h-fit' aria-valuenow={i} onClick={(e: React.MouseEvent<HTMLDivElement>) => handleClickNavForMobile(e)} >
                                         <FaChevronDown size={11} className={`${navItem.subNav?.length !== undefined ? "block" : "hidden"} 
                                                         group-hover:-rotate-180 
-                                                        group-hover:text-[#c58c37] duration-300 transition-all`} />
+                                                        group-hover:text-[#c62101] duration-300 transition-all`} />
                                     </div>
                                 </Link>
-                                <span className={`${i === dataNav.length - 1 ? "hidden" : "block"} 
-                                                    font-thin text-[#dfd39f]`}
-                                >|</span>
                                 {/* //todo: Dropdown */}
                                 {
                                     activeDropdown === i && navItem.subNav?.length !== undefined && <motion.div
@@ -78,7 +71,7 @@ const MainNav: React.FC<MainNavProps> = ({ dataNav, className }) => {
                                                         bg-white shadow-[-10px_20px_50px_-15px_rgba(0,0,0,0.3)] p-5'>
                                             {
                                                 navItem.subNav?.map((subNavItem: MainNavType, i: number) => (
-                                                    <Link href={`${navItem.href}${subNavItem.href}`} key={i} className='hover:text-[#c58c37] cursor-pointer transition'>{subNavItem.title}</Link>
+                                                    <Link href={`${navItem.href}${subNavItem.href}`} key={i} className='hover:text-[#c62101] cursor-pointer transition'>{subNavItem.title}</Link>
                                                 ))
                                             }
                                         </div>

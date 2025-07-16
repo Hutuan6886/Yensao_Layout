@@ -1,6 +1,6 @@
 'use client'
 import React, { ChangeEvent, useRef } from 'react'
-import { getUploadedImageUrl, uploadImage } from '@/actions/cloudflareFunc'
+import { uploadImage } from '@/actions/cloudflareFunc'
 import { LuImagePlus } from 'react-icons/lu'
 
 interface DescriptionUploadImageProps {
@@ -15,16 +15,33 @@ const DescriptionUploadImage = ({ setImgUrl }: DescriptionUploadImageProps) => {
         }
     }
 
+    // const handleUploadImage = async (e: ChangeEvent<HTMLInputElement>) => {
+    //     e.preventDefault()
+    //     if (!e.target.files?.[0]) return
+    //     const formData = new FormData()
+    //     formData.append('file', e.target.files?.[0])
+    //     await uploadImage(formData).then(async (imageName: string) => {
+    //         await getUploadedImageUrl(imageName).then((imgUrl: string) => {
+    //             setImgUrl(imgUrl)
+    //         })
+    //     })
+    // }
     const handleUploadImage = async (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         if (!e.target.files?.[0]) return
+
         const formData = new FormData()
-        formData.append('file', e.target.files?.[0])
-        await uploadImage(formData).then(async (imageName: string) => {
-            await getUploadedImageUrl(imageName).then((imgUrl: string) => {
-                setImgUrl(imgUrl)
-            })
-        })
+        formData.append('file', e.target.files[0])
+
+        try {
+            // Hàm uploadImage trả về trực tiếp public URL
+            const imageUrl = await uploadImage(formData)
+
+            // Set public URL trực tiếp
+            setImgUrl(imageUrl)
+        } catch (error) {
+            console.error('Upload image error: ', error)
+        }
     }
 
     return (

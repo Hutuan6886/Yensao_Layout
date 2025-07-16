@@ -124,7 +124,12 @@ const ImageProductList = <T extends FieldValues>({ name, setValue, imageList }: 
             {
                 imageList.map((img: ImageType, i: number) => (
                     <div key={img.id} className={`relative flex flex-row items-center justify-start`}>
-                        <ImageProductItem className={imageDraggedIndex === i + 1 ? "opacity-60" : "opacity-100"} imgUrl={img.src} imageIndex={i + 1} handleDragStart={handleDragStart} onDragEnd={handleDragEnd} onDeleteImage={() => setValue(name, imageList.filter((item: ImageType) => item.id !== img.id) as PathValue<T, Path<T>>)} />
+                        <ImageProductItem className={imageDraggedIndex === i + 1 ? "opacity-60" : "opacity-100"}
+                            imgUrl={img.src}
+                            imageIndex={i + 1}
+                            handleDragStart={handleDragStart}
+                            onDragEnd={handleDragEnd}
+                            onDeleteImage={() => setValue(name, imageList.filter((item: ImageType) => item.id !== img.id) as PathValue<T, Path<T>>)} />
                         <ImageProductDrop dropIndex={i + 1} />
                     </div>
                 ))
