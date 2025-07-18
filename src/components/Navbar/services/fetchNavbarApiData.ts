@@ -26,10 +26,6 @@ const fetchNavbarApiData = async (): Promise<MainNavType[]> => {
         title: "Liên Hệ",
         href: "/contact",
       },
-      {
-        title: "Về Chúng Tôi",
-        href: "/about",
-      },
     ];
   const categoryList: MainNavType[] = data.map((dataItem: CategoryType) => ({
     title: dataItem.name,
@@ -53,10 +49,6 @@ const fetchNavbarApiData = async (): Promise<MainNavType[]> => {
     {
       title: "Liên Hệ",
       href: "/contact",
-    },
-    {
-      title: "Về Chúng Tôi",
-      href: "/about",
     },
   ];
 

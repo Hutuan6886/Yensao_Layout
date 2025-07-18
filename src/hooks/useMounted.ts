@@ -4,10 +4,7 @@ const useMounted = (): boolean | null => {
     const [mounted, setMounted] = useState(false)
     useEffect(() => {
         if (!mounted) setMounted(true)
-    }, [])
-    if (!mounted) {
-        return null
-    }
+    }, [mounted])
     return mounted
 }
 
