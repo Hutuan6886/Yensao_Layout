@@ -1,9 +1,9 @@
 import { toast } from "react-toastify"
 
-const configPost = <T>(data: T): RequestInit => {
+const configPut = <T>(data: T): RequestInit => {
     return {
         credentials: 'include',
-        method: 'POST',
+        method: 'PUT',
         headers: {
             "Content-Type": "application/json"
         },
@@ -11,9 +11,9 @@ const configPost = <T>(data: T): RequestInit => {
     }
 }
 
-export const postNewMass = async <T>(data: T) => {
+export const updateMass = async <T>(id: string, data: T) => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/mass`, configPost<T>(data))
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/mass/${id}`, configPut<T>(data))
         if (res.ok) {
             toast(res.statusText, { type: 'success' })
             return res.json()

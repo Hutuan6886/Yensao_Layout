@@ -1,32 +1,31 @@
 'use client'
+import { postNewMass } from '@/actions/postFunc'
+import { updateMass } from '@/actions/putFunc'
 import { MassType } from '@/types/types'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { IoCloseOutline } from 'react-icons/io5'
 
-const MassForm = () => {
+interface MassFormProps {
+    massData: MassType | null
+}
+
+const MassForm: React.FC<MassFormProps> = ({ massData }) => {
     const router = useRouter()
-    const { register, handleSubmit, reset, watch } = useForm<MassType>()
+    const { register, handleSubmit, reset, watch } = useForm<MassType>({
+        defaultValues: {
+            value: massData?.value || 0
+        }
+    })
 
     const submitMassForm = async (data: MassType) => {
-        try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/mass`, {
-                credentials: 'include',
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            })
-            if (res.ok) {
-                router.refresh()
-                reset()
-            } else {
-                console.log("RES_ERROR_[Create mass fail]");
-            }
-        } catch (error) {
-            console.log("SERVER_ERROR_[Create mass fail]", error);
+        let mass: MassType
+        if (!massData) mass = await postNewMass<MassType>(data)
+        else mass = await updateMass<MassType>(massData.id, data)
+        if (mass) {
+            router.push('/yensaothuduc-vanmanh-admin/mass/new')
+            router.refresh()
         }
     }
 
@@ -53,7 +52,9 @@ const MassForm = () => {
                 </div>
             </div>
             <div className='flex flex-row items-center justify-center gap-2'>
-                <button type='submit' className='bg-[#998264] text-white rounded-[0.5rem] px-4 py-2 hover:bg-[#a59075] transition'>Thêm Mới</button>
+                <button type='submit' className='bg-[#998264] text-white rounded-[0.5rem] px-4 py-2 hover:bg-[#a59075] transition'>
+                    {massData ? "Cập Nhật" : "Thêm Mới"}
+                </button>
             </div>
         </form>
     )

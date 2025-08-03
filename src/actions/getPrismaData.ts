@@ -10,6 +10,15 @@ export const getMass = async (): Promise<MassType[]> => {
     return massData
 }
 
+export const getMassById = async (massId: string): Promise<MassType | null> => {
+    const massData = await prismadb.mass.findFirst({
+        where: {
+            id: massId
+        }
+    })
+    return massData
+}
+
 export const getCategories = async (): Promise<CategoryType[]> => {
     const categoriesData = await prismadb.category.findMany()
     return categoriesData

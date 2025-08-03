@@ -1,7 +1,7 @@
 'use client'
-import React, { DragEvent, Fragment, MouseEvent, useEffect, useState } from 'react'
+import React, { MouseEvent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 
 import { closeDeleteMassModal, openDeleteMassModal } from '@/lib/features/massSlice/massSlice'
 import { MassType } from '@/types/types'
@@ -18,11 +18,22 @@ interface MassTableProps {
 }
 
 const MassTable: React.FC<MassTableProps> = ({ massData }) => {
-    const [massSorted, setMassSorted] = useState<MassType[]>()
-    const { massState, isOpen } = useSelector((state: RootState) => state.mass.massModal)
-    const dispatch = useDispatch()
-
     const router = useRouter()
+    const params = useParams()
+    const dispatch = useDispatch()
+    const { massState, isOpen } = useSelector((state: RootState) => state.mass.massModal)
+
+    const handleUpdate = (e: MouseEvent<HTMLTableRowElement>) => {
+        e.stopPropagation()
+        router.push(`/yensaothuduc-vanmanh-admin/mass/${e.currentTarget.id}`)
+    }
+    const handleDelete = () => {
+        deleteMass(massState.id).then(() => {
+            router.refresh()
+            dispatch(closeDeleteMassModal())
+        })
+    }
+    const handleClose = () => dispatch(closeDeleteMassModal())
 
     if (massData.length < 1) return null
     return (
@@ -40,7 +51,8 @@ const MassTable: React.FC<MassTableProps> = ({ massData }) => {
                 <tbody>
                     {
                         massData.length !== 0 ? massData.map((mass: MassType) => (
-                            <tr key={mass.id} className={`text-sm text-center`}
+                            <tr key={mass.id} id={mass.id} className={`text-sm text-center cursor-pointer ${params.massId === mass.id ? "bg-[#e4e4e4]" : ""}`}
+                                onClick={handleUpdate}
                             >
                                 <td className='border-b border-t py-2'>
                                     <div className='flex flex-row items-center justify-center'>
@@ -69,13 +81,8 @@ const MassTable: React.FC<MassTableProps> = ({ massData }) => {
                 </tbody>
             </table>
             <DeleteModal title={`Bạn Muốn Xoá Danh Mục ${massState.value} ?`} desc={`Danh mục ${massState.value} sẽ bị xoá vĩnh viễn`} isOpen={isOpen}
-                onSubmit={() => {
-                    deleteMass(massState.id).then(() => {
-                        router.refresh()
-                        dispatch(closeDeleteMassModal())
-                    })
-                }}
-                onClose={() => dispatch(closeDeleteMassModal())} />
+                onSubmit={handleDelete}
+                onClose={handleClose} />
         </>
     )
 }

@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import StoreProvider from "../store/StoreProvider";
 import Sidebar from "./_components/Sidebar/Sidebar";
 
@@ -18,6 +19,7 @@ export default function DashboardLayout({
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </StoreProvider>
     );
 }

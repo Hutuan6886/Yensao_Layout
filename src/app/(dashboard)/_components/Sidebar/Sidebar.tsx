@@ -1,5 +1,5 @@
 'use client'
-import React, { Ref } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { BiCategory } from 'react-icons/bi'
@@ -11,7 +11,7 @@ const Sidebar = () => {
     const pathname = usePathname()
     const SidebarData: SideBarDashboard[] = [
         { title: "Danh Sách Danh Mục", icon: <BiCategory />, href: "/yensaothuduc-vanmanh-admin/categories", isActive: pathname.includes("/yensaothuduc-vanmanh-admin/categories/") },
-        { title: "Danh Sách Khối Lượng", icon: <FcBiomass />, href: "/yensaothuduc-vanmanh-admin/mass", isActive: pathname.includes("/yensaothuduc-vanmanh-admin/mass/") },
+        { title: "Danh Sách Khối Lượng", icon: <FcBiomass />, href: "/yensaothuduc-vanmanh-admin/mass/new", isActive: pathname.includes("/yensaothuduc-vanmanh-admin/mass") },
         { title: "Danh Sách Sản Phẩm", icon: <FaRegListAlt />, href: "/yensaothuduc-vanmanh-admin/products", isActive: pathname.includes("/yensaothuduc-vanmanh-admin/products/") }]
     return (
         <div className='relative w-full h-full'>
