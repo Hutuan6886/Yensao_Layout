@@ -10,7 +10,7 @@ import { SideBarDashboard } from '@/types/types'
 const Sidebar = () => {
     const pathname = usePathname()
     const SidebarData: SideBarDashboard[] = [
-        { title: "Danh Sách Danh Mục", icon: <BiCategory />, href: "/yensaothuduc-vanmanh-admin/categories", isActive: pathname.includes("/yensaothuduc-vanmanh-admin/categories/") },
+        { title: "Danh Sách Danh Mục", icon: <BiCategory />, href: "/yensaothuduc-vanmanh-admin/categories/new", isActive: pathname.includes("/yensaothuduc-vanmanh-admin/categories/") },
         { title: "Danh Sách Khối Lượng", icon: <FcBiomass />, href: "/yensaothuduc-vanmanh-admin/mass/new", isActive: pathname.includes("/yensaothuduc-vanmanh-admin/mass") },
         { title: "Danh Sách Sản Phẩm", icon: <FaRegListAlt />, href: "/yensaothuduc-vanmanh-admin/products", isActive: pathname.includes("/yensaothuduc-vanmanh-admin/products/") }]
     return (

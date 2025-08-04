@@ -8,7 +8,7 @@ export async function GET(
 ) {
   try {
     if (req.method !== "GET") {
-      return new NextResponse("Method is unavailable!", { status: 401 });
+      return new NextResponse("Method is incorrect!", { status: 401 });
     }
     if (!params.categoryId) {
       return new NextResponse("Params is unavailable!", { status: 401 });
@@ -32,15 +32,23 @@ export async function PUT(
 ) {
   try {
     if (req.method !== "PUT") {
-      return new NextResponse("Method is unavailable!", { status: 401 });
+      return new NextResponse("Method is incorrect!", { status: 401, statusText: 'Method is incorrect!' });
     }
     if (!params.categoryId) {
-      return new NextResponse("Params is unavailable!", { status: 401 });
+      return new NextResponse("Params is unavailable!", { status: 401, statusText: 'Params is unavailable!' });
     }
     const body: CategoryType = await req.json();
     const { name } = body;
     if (!name) {
-      return new NextResponse("Name is required!", { status: 200 });
+      return new NextResponse("Name is required!", { status: 200, statusText: 'Name is required!' });
+    }
+    const existingCategory: CategoryType | null = await prismadb.category.findFirst({
+      where: {
+        name,
+      },
+    });
+    if (existingCategory) {
+      return new NextResponse("Category name is already exists!", { status: 406, statusText: 'Category name is already exists!' });
     }
     const categoryUpdated: CategoryType = await prismadb.category.update({
       where: {
@@ -50,7 +58,7 @@ export async function PUT(
         name,
       },
     });
-    return NextResponse.json(categoryUpdated, { status: 200 });
+    return NextResponse.json(categoryUpdated, { status: 200, statusText: 'Category updated successfully!' });
   } catch (error) {
     console.log("[CATEGORY_UPDATE_PUT]", error);
     return new NextResponse("Internal Error", { status: 500 });
@@ -63,17 +71,17 @@ export async function DELETE(
 ) {
   try {
     if (req.method !== "DELETE") {
-      return new NextResponse("Method is unavailable!", { status: 401 });
+      return new NextResponse("Method is incorrect!", { status: 401, statusText: 'Method is incorrect!' });
     }
     if (!params.categoryId) {
-      return new NextResponse("Params is unavailable!", { status: 401 });
+      return new NextResponse("Params is unavailable!", { status: 401, statusText: 'Params is unavailable!' });
     }
     const categoryDeleted: CategoryType = await prismadb.category.delete({
       where: {
         id: params.categoryId,
       },
     });
-    return NextResponse.json(categoryDeleted, { status: 200 });
+    return NextResponse.json(categoryDeleted, { status: 200, statusText: 'Category deleted successfully!' });
   } catch (error) {
     console.log("[CATEGORY_DELETE_DELETE]", error);
     return new NextResponse("Internal Error", { status: 500 });

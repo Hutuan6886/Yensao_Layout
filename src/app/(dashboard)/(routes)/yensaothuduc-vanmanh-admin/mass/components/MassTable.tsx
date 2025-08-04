@@ -25,7 +25,11 @@ const MassTable: React.FC<MassTableProps> = ({ massData }) => {
 
     const handleUpdate = (e: MouseEvent<HTMLTableRowElement>) => {
         e.stopPropagation()
-        router.push(`/yensaothuduc-vanmanh-admin/mass/${e.currentTarget.id}`)
+        if (params.massId === e.currentTarget.id) {
+            router.push(`/yensaothuduc-vanmanh-admin/mass/new`)
+        } else {
+            router.push(`/yensaothuduc-vanmanh-admin/mass/${e.currentTarget.id}`)
+        }
     }
     const handleDelete = () => {
         deleteMass(massState.id).then(() => {
@@ -51,7 +55,7 @@ const MassTable: React.FC<MassTableProps> = ({ massData }) => {
                 <tbody>
                     {
                         massData.length !== 0 ? massData.map((mass: MassType) => (
-                            <tr key={mass.id} id={mass.id} className={`text-sm text-center cursor-pointer ${params.massId === mass.id ? "bg-[#e4e4e4]" : ""}`}
+                            <tr key={mass.id} id={mass.id} className={`text-sm text-center cursor-pointer hover:bg-zinc-200 ${params.massId === mass.id ? "bg-zinc-200" : ""}`}
                                 onClick={handleUpdate}
                             >
                                 <td className='border-b border-t py-2'>
