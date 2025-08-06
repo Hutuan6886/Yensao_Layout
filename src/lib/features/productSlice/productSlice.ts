@@ -7,11 +7,11 @@ interface DeleteProductModalType {
 }
 interface EditNotionType {
   data: NotionType;
-  index?: number;
+  index?: number
 }
 interface EditDescriptionType {
   data: DescriptionType;
-  index?: number;
+  index?: number
 }
 interface ProductReduxType {
   productModal: DeleteProductModalType;
@@ -42,7 +42,6 @@ const initialState: ProductReduxType = {
       title: "",
       content: "",
     },
-    index: undefined,
   },
   editDescription: {
     data: {
@@ -51,7 +50,6 @@ const initialState: ProductReduxType = {
       imgUrl: "",
       content: "",
     },
-    index: undefined,
   },
 };
 
@@ -84,9 +82,32 @@ export const productSlice = createSlice({
     updateNotion: (state, action: PayloadAction<EditNotionType>) => {
       state.editNotion = action.payload;
     },
+    updateNotionSuccess: (state) => {
+      state.editNotion = {
+        data: {
+          id: "",
+          title: "",
+          content: "",
+        },
+        index: undefined
+      };
+    },
+    updateDescription: (state, action: PayloadAction<EditDescriptionType>) => {
+      state.editDescription = action.payload;
+    },
+    updateDescriptionsuccess: (state) => {
+      state.editDescription = {
+        data: {
+          id: "",
+          title: "",
+          imgUrl: "",
+          content: ""
+        }, index: undefined
+      }
+    }
   },
 });
 
-export const { openDeleteProductModal, closeDeleteProductModal, updateNotion } =
+export const { openDeleteProductModal, closeDeleteProductModal, updateNotion, updateNotionSuccess, updateDescription, updateDescriptionsuccess } =
   productSlice.actions;
 export const productReducer = productSlice.reducer;

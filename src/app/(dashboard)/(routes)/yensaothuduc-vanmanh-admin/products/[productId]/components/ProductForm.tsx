@@ -34,10 +34,9 @@ interface ProductFormProps {
 
 const ProductForm: React.FC<ProductFormProps> = ({ productData, categoriesData, productId, massData }) => {
     const router = useRouter()
-
     const { isOpen, productState } = useSelector((state: RootState) => state.product.productModal)
     const dispatch = useDispatch()
-    const { register, setValue, handleSubmit, watch,
+    const { register, getValues, setValue, handleSubmit, watch,
         // control 
     } = useForm<ProductFormType>({
         defaultValues: productData
@@ -175,7 +174,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ productData, categoriesData, 
                             </div>
                             <div className='col-span-1 flex flex-col gap-3'>
                                 <CategoriesOptionsInput name='categoryId' register={register} data={categoriesData} />
-
                             </div>
                         </div>
                         <PriceAndMassOption name='price' register={register} setValue={setValue} watch={watch} massData={massData} />
@@ -184,7 +182,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ productData, categoriesData, 
                         <label htmlFor="" className='font-semibold'>GHI CHÚ</label>
                         <div className='grid grid-cols-2 gap-2'>
                             <div className='col-span-1'>
-                                <NotionListForm name='notion' setValue={setValue} notionIndex={watch('notion')?.length} />
+                                <NotionListForm name='notion' getValues={getValues} setValue={setValue} />
                             </div>
                             <div className='col-span-1'>
                                 <NotionListTable name='notion' setValue={setValue} notionList={watch('notion') || []} />

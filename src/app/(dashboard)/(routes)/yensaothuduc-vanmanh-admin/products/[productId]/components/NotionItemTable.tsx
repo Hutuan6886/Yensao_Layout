@@ -7,7 +7,6 @@ import { motion } from 'framer-motion'
 import { AiFillEdit } from 'react-icons/ai'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/lib/store'
-import { IoMdCloudDone } from 'react-icons/io'
 
 interface NotionItemTableProps {
     notionData: NotionType
@@ -18,18 +17,17 @@ interface NotionItemTableProps {
     handleDragStart: (item: NotionItemDragDropActiveType) => void
     handleDragEnd: () => void
     onEditNotion: () => void
-    onSaveNotion: () => void
     onDeleteNotion: () => void
 }
 
-const NotionItemTable: React.FC<NotionItemTableProps> = ({ notionData, index, itemActiveIndex, handleDragStart, handleDragEnd, onEditNotion, onSaveNotion, onDeleteNotion }) => {
-
+const NotionItemTable: React.FC<NotionItemTableProps> = ({ notionData, index, itemActiveIndex, handleDragStart, handleDragEnd, onEditNotion, onDeleteNotion }) => {
     const { data } = useSelector((state: RootState) => state.product.editNotion)
     const notionItemRef = useRef<HTMLDivElement>(null)
 
     return (
         <div ref={notionItemRef} className={`flex flex-row items-start justify-between gap-1
-                        ${itemActiveIndex === index ? "opacity-30" : "opacity-100"} transition`} draggable={true}
+                        ${index === itemActiveIndex ? "opacity-50" : "opacity-100"}
+                        ${data.id === notionData.id ? "opacity-50" : "opacity-100"}  transition`} draggable={true}
             onDragStart={() => handleDragStart({
                 index,
                 height: notionItemRef.current?.clientHeight,
@@ -47,20 +45,11 @@ const NotionItemTable: React.FC<NotionItemTableProps> = ({ notionData, index, it
                 <p style={{ whiteSpace: 'pre-line' }}>{notionData.content}</p>
             </motion.div>
             <div className='flex flex-row items-center justify-start gap-2'>
-                {
-                    data.id === notionData.id
-                        ?
-                        <button type='button' className='hover:scale-110 transition'
-                            onClick={onSaveNotion}
-                        >
-                            <IoMdCloudDone />
-                        </button>
-                        : <button type='button' className='hover:scale-110 transition'
-                            onClick={onEditNotion}
-                        >
-                            {<AiFillEdit />}
-                        </button>
-                }
+                <button type='button' className='hover:scale-110 transition'
+                    onClick={onEditNotion}
+                >
+                    {<AiFillEdit />}
+                </button>
                 <button type='button' className='hover:scale-110 transition'
                     onClick={onDeleteNotion}
                 >

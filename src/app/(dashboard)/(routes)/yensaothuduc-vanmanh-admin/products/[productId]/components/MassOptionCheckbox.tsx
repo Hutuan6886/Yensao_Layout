@@ -26,14 +26,14 @@ const MassOptionCheckbox = <T extends FieldValues>({ name, setValue, watch, mass
     useEffect(() => {
         setValue(name, selectedValue as PathValue<T, Path<T>>)
     }, [name, selectedValue, setValue])
-    
+
     return (
         <div className="w-full">
             <div className="flex flex-col items-start gap-2">
                 <label htmlFor={name} className="text-sm text-zinc-500">{label}</label>
                 <div className="w-full flex flex-col gap-2">
                     {massData.map((mass: MassType, i: number) => (
-                        <CheckboxLabel key={i} name='checkbox' label={mass.value} value={mass.id} onChange={handleSelectedCheckbox} checked={selectedValue.includes(mass.id)} titleSize='16px'/>
+                        <CheckboxLabel key={i} name='checkbox' label={mass.value.toString()} value={mass.id} onChange={handleSelectedCheckbox} checked={selectedValue.includes(mass.id)} titleSize='16px' />
                     ))}
                 </div>
             </div>
