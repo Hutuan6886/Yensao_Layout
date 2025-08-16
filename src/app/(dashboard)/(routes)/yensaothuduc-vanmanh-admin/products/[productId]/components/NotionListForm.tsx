@@ -15,17 +15,11 @@ type NotionListFormProps<T extends FieldValues> = {
 }
 
 const NotionListForm = <T extends FieldValues>({ name, getValues, setValue }: NotionListFormProps<T>) => {
-    const { state, dispatch, editNotion, resetEditNotion } = useNotionForm()
+    const { state, setTitle, setContent, reset, editNotion, resetEditNotion } = useNotionForm()
 
-    const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault()
-        dispatch({ type: 'SET_TITLE', payload: e.target.value })
-    }
+    const handleTitle = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)
 
-    const handleContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        e.preventDefault()
-        dispatch({ type: 'SET_CONTENT', payload: e.target.value })
-    }
+    const handleContent = (e: ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)
 
     const handleSubmitNotion = () => {
         if (editNotion.data.id) {
@@ -45,7 +39,7 @@ const NotionListForm = <T extends FieldValues>({ name, getValues, setValue }: No
             }]
             setValue(name, notions as PathValue<T, Path<T>>, { shouldValidate: true })
         }
-        dispatch({ type: 'RESET' })
+        reset()
     }
 
     return (

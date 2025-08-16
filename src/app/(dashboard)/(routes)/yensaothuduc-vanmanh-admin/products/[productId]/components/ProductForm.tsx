@@ -146,7 +146,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ productData, categoriesData, 
             console.error("CREATED_UPDATED_PRODUCT", error);
         }
     }
-
     return (
         <>
             <div className='w-full h-fit flex flex-col gap-8'>
@@ -191,7 +190,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ productData, categoriesData, 
                     </div>
                     <div className='flex flex-col gap-4'>
                         <label htmlFor="" className='font-semibold'>MÔ TẢ</label>
-                        <DescriptionListForm name='desc' setValue={setValue} descriptionIndex={watch('desc')?.length} />
+                        <DescriptionListForm name='desc' setValue={setValue} getValues={getValues} />
                         <DescriptionListTable name='desc' setValue={setValue} descriptionList={watch('desc') || []} />
                     </div>
                     <button type='submit' className='w-full h-auto text-white bg-[#998264] rounded-[0.375rem] p-2'>Xác Nhận</button>

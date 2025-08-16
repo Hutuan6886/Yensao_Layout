@@ -59,19 +59,22 @@ const NotionListTable = <T extends FieldValues>({ name, setValue, notionList }: 
         }
     }
 
+    const handleEditNotion = (data: NotionType, index: number) => dispatch(updateNotion({ data, index }))
+    const handleDeleteNotion = (id?: string) => setValue(name, notionList.filter((item: NotionType) => item.id !== id) as PathValue<T, Path<T>>)
+
     return (
         <motion.div layout className='w-full flex flex-col gap-2'>
             <TableDrop index={0} itemActive={itemActive} handleDrop={handleDrop} />
             {
-                notionList?.map((notion: NotionType, i: number) => (
+                notionList.map((notion: NotionType, i: number) => (
                     <Fragment key={notion.id}>
                         <NotionItemTable notionData={notion}
                             index={i + 1}
                             itemActiveIndex={itemActive?.index}
                             handleDragStart={handleDragStart}
                             handleDragEnd={handleDragEnd}
-                            onEditNotion={() => dispatch(updateNotion({ data: notion, index: i }))}
-                            onDeleteNotion={() => setValue(name, notionList.filter((item: NotionType) => item.id !== notion.id) as PathValue<T, Path<T>>)} />
+                            onEditNotion={() => handleEditNotion(notion, i)}
+                            onDeleteNotion={() => handleDeleteNotion(notion.id)} />
                         <TableDrop index={i + 1} itemActive={itemActive} handleDrop={handleDrop} />
                     </Fragment>
                 ))

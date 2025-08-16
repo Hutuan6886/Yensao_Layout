@@ -12,11 +12,16 @@ import DeleteModal from '@/components/Modals/DeleteModal'
 
 import { IoCloseOutline } from 'react-icons/io5'
 import { MdOutlineDragIndicator } from 'react-icons/md'
+import SortTableButton from '@/components/SortTableButton/SortTableButton'
 
 interface MassTableProps {
     massData: MassType[]
 }
-
+const titleTable = [
+    { title: 'Giá trị', colName: 'value', order: 'desc' },
+    { title: 'Thời gian tạo', colName: 'createAt', order: 'desc' },
+    { title: 'Thời gian cập nhật', colName: 'updateAt', order: 'desc' },
+]
 const MassTable: React.FC<MassTableProps> = ({ massData }) => {
     const router = useRouter()
     const params = useParams()
@@ -46,9 +51,9 @@ const MassTable: React.FC<MassTableProps> = ({ massData }) => {
                 <thead>
                     <tr>
                         <th></th>
-                        <th className='p-3'>Giá trị</th>
-                        <th className='p-3'>Thời gian tạo</th>
-                        <th className='p-3'>Thời gian cập nhật</th>
+                        {titleTable.map((item, i) => (
+                            <th key={i}><SortTableButton title={item.title} onClick={() => { }} /></th>
+                        ))}
                         <th></th>
                     </tr>
                 </thead>

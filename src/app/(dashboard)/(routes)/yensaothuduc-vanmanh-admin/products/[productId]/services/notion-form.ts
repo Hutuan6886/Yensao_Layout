@@ -47,11 +47,12 @@ const useNotionForm = () => {
         }
     }, [editNotion])
 
-    const resetEditNotion = () => {
-        distpatchState(updateNotionSuccess())
-    }
+    const setTitle = (value: string) => dispatch({ type: 'SET_TITLE', payload: value })
+    const setContent = (value: string) => dispatch({ type: 'SET_CONTENT', payload: value })
+    const reset = () => dispatch({ type: 'RESET' })
+    const resetEditNotion = () => distpatchState(updateNotionSuccess())
 
-    return { state, dispatch, editNotion, resetEditNotion }
+    return { state, setTitle, setContent, reset, editNotion, resetEditNotion }
 }
 
 export default useNotionForm

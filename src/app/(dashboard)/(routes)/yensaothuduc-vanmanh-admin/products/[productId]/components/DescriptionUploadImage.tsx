@@ -36,7 +36,6 @@ const DescriptionUploadImage = ({ setImgUrl }: DescriptionUploadImageProps) => {
         try {
             // Hàm uploadImage trả về trực tiếp public URL
             const imageUrl = await uploadImage(formData)
-
             // Set public URL trực tiếp
             setImgUrl(imageUrl)
         } catch (error) {
@@ -54,7 +53,7 @@ const DescriptionUploadImage = ({ setImgUrl }: DescriptionUploadImageProps) => {
                 <LuImagePlus size={25} className='text-sky-500' />
                 <p className='text-zinc-600 text-sm'>Nhấn hoặc kéo thả hình ảnh tải lên tại đây !</p>
             </div>
-            <input ref={inputRef} type="file" accept="image/png, image/jpeg, image/webp" className='hidden' onChange={(e: ChangeEvent<HTMLInputElement>) => handleUploadImage(e)} />
+            <input ref={inputRef} type="file" accept="image/png, image/jpeg, image/webp" className='hidden' onChange={handleUploadImage} />
         </div>
     )
 }

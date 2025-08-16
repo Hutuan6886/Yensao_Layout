@@ -1,53 +1,45 @@
 'use client'
-import React, { ChangeEvent, useRef, useState } from 'react'
-import { FieldValues, Path, PathValue, UseFormSetValue } from 'react-hook-form'
+import React, { ChangeEvent } from 'react'
+import { FieldValues, Path, PathValue, UseFormGetValues, UseFormSetValue } from 'react-hook-form'
 import cuid from 'cuid'
 import Image from 'next/image'
 
 import DescriptionUploadImage from './DescriptionUploadImage'
 import { IoClose } from 'react-icons/io5'
 import { FaPlus } from 'react-icons/fa'
+import useDescriptionForm from '../services/description-form'
+import { DescriptionType } from '@/types/types'
 
 type DescriptionListFormProps<T extends FieldValues> = {
     name: Path<T>
     setValue: UseFormSetValue<T>
-
-    descriptionIndex?: number
+    getValues: UseFormGetValues<T>
 }
-const DescriptionListForm = <T extends FieldValues>({ name, setValue, descriptionIndex }: DescriptionListFormProps<T>) => {
-    const [title, setTitle] = useState<string>()
-    const [imgUrl, setImgUrl] = useState<string>()
-    const [content, setContent] = useState<string>()
+const DescriptionListForm = <T extends FieldValues>({ name, setValue, getValues }: DescriptionListFormProps<T>) => {
+    const { state, setTitle, setImgUrl, setContent, reset, editDescription, resetEditDescription } = useDescriptionForm()
 
-    const titleRef = useRef<HTMLInputElement>(null)
-    const contentRef = useRef<HTMLTextAreaElement>(null)
+    const handleTitle = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)
 
-    const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.value) {
-            setTitle(e.target.value)
-        }
-    }
-
-    const handleContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        if (e.target.value) {
-            setContent(e.target.value)
-        }
-    }
+    const handleContent = (e: ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)
 
     const submitDescription = () => {
-        setValue(`${name}.${descriptionIndex}.id` as Path<T>, cuid() as PathValue<T, Path<T>>)
-        setValue(`${name}.${descriptionIndex}.title` as Path<T>, title as PathValue<T, Path<T>>)
-        if (titleRef.current?.value) {
-            titleRef.current.value = ''
+        if (editDescription.data.id) {
+            setValue(`${name}[${editDescription.index}]` as Path<T>, {
+                id: editDescription.data.id,
+                title: state.title,
+                content: state.content
+            } as PathValue<T, Path<T>>, { shouldValidate: true })
+            resetEditDescription()
+        } else {
+            const descriptions: DescriptionType[] = [...getValues(name), {
+                id: cuid(),
+                title: state.title,
+                imgUrl: state.imgUrl,
+                content: state.content
+            }]
+            setValue(name, descriptions as PathValue<T, Path<T>>, { shouldValidate: true })
         }
-        setValue(`${name}.${descriptionIndex}.imgUrl` as Path<T>, imgUrl as PathValue<T, Path<T>>)
-        if (imgUrl) {
-            setImgUrl(undefined)
-        }
-        setValue(`${name}.${descriptionIndex}.content` as Path<T>, content as PathValue<T, Path<T>>)
-        if (contentRef.current?.value) {
-            contentRef.current.value = ''
-        }
+        reset()
     }
 
     return (
@@ -56,27 +48,31 @@ const DescriptionListForm = <T extends FieldValues>({ name, setValue, descriptio
                 <div className='col-span-3 flex flex-col gap-2'>
                     <div className="flex flex-col gap-1">
                         <label htmlFor='title' className='text-sm text-zinc-500'>Tiêu đề</label>
-                        <input ref={titleRef} type="text" className='w-full border border-zinc-700 rounded-[0.375rem] p-2' onChange={(e: ChangeEvent<HTMLInputElement>) => handleTitle(e)} />
+                        <input value={state.title} type="text" className='w-full border border-zinc-700 rounded-[0.375rem] p-2' onChange={handleTitle} />
                     </div>
                     <div className='flex flex-col gap-1'>
                         <label htmlFor='content' className='text-sm text-zinc-500'>Nội dung</label>
-                        <textarea ref={contentRef} className='w-full border border-zinc-500 rounded-[0.375rem] p-2' rows={7} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => handleContent(e)} />
+                        <textarea value={state.content} className='w-full border border-zinc-500 rounded-[0.375rem] p-2' rows={7} onChange={handleContent} />
                     </div>
                     <button type='button' className='w-full flex flex-row items-center justify-center gap-1
                                 bg-black text-white rounded-[0.375rem] py-2'
                         onClick={submitDescription}
                     >
                         <FaPlus />
-                        <p>Thêm mô tả</p>
+                        {
+                            editDescription.data.id
+                                ? 'Cập nhật mô tả'
+                                : 'Thêm mới mô tả'
+                        }
                     </button>
                 </div>
                 <div className='col-span-2'>
                     {
-                        imgUrl
-                            ? <div className='relative w-full h-fit m-auto'>
-                                <Image src={imgUrl} alt='des_img' width={0} height={0} sizes='100vw' className=' w-full h-auto rounded-[0.375rem]' />
+                        state.imgUrl
+                            ? <div className='relative'>
+                                <Image src={state.imgUrl} alt='des_img' width={400} height={400} className='w-full h-auto object-cover rounded-[0.375rem]' />
                                 <button className='absolute top-1 right-1'
-                                    onClick={() => { }}
+                                    onClick={() => setImgUrl('')}
                                 >
                                     <IoClose size={25} />
                                 </button>
