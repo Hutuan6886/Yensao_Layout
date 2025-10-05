@@ -9,13 +9,13 @@ const categories = [
         href: '/',
         img: '/images/category-feature-1.jpg',
         title: 'Yến Tinh Chế Thượng Hạng',
-        desc: 'Đây là loại tổ yến sử dụng 100% tổ yến tinh chế sợi dài được gia công từ phần bụng của tổ thô (hay còn gọi là sơ mướp)',
+        desc: 'Đây là loại tổ yến sử dụng 100% tổ yến tinh chế sợi dài được gia công từ phần bụng của tổ thô (hay còn gọi là sơ mướp).',
     },
     {
         href: '/',
         img: '/images/category-feature-3.jpg',
         title: 'Yến Hũ Chưng Sẵn',
-        desc: 'Set hũ yến chưng sẵn là một sản phẩm không chỉ bổ dưỡng mà còn mang tính thẩm mỹ cao',
+        desc: 'Set hũ yến chưng sẵn là một sản phẩm không chỉ có giá trị bổ dưỡng mà còn mang tính thẩm mỹ cao.',
     },
 ];
 
